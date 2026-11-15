@@ -83,15 +83,15 @@ chunks, 1 billion is 1,000 chunks, read through the same code. What does not sca
 billion digits is listed here rather than hidden:
 
 - **Generation is in memory.** `chudnovsky_digits` holds the whole number as one big
-  integer. It takes about a second for 1 million digits and is practical to roughly 100
-  million. Beyond that, digits should come from a dedicated program such as y-cruncher
+  integer. It takes about a second for 1 million digits (measured). The practical
+  ceiling of roughly 100 million is an estimate from memory use, not a measurement. Beyond that, digits should come from a dedicated program such as y-cruncher
   and be streamed in: `write_dataset` accepts an iterator of blocks, and
   `iter_digits_from_text` streams a text file.
 - **Array-based analyses** (n-grams, tests, windows, runs) load their range into memory and
   are capped by `PISCOPE_MAX_STATISTICS_DIGITS` (default 10 million). Frequency counting
   and search stream chunk by chunk and have no such ceiling.
-- **Search is a linear scan**, about 0.5 ms per million digits. A billion digits would take
-  around half a second per uncached pattern; an index (suffix array or n-gram index) is the
+- **Search is a linear scan**, about 0.5 ms per million digits. Extrapolated, not measured, a billion digits would
+  take around half a second per uncached pattern; an index (suffix array or n-gram index) is the
   next step if that becomes too slow.
 
 ### Expanding a dataset

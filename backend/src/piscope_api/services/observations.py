@@ -48,7 +48,6 @@ def build_observations(
                 "model. A single test on one range; not evidence of normality."
             ),
             kind="test",
-            href="/statistics",
         )
     )
 
@@ -67,7 +66,6 @@ def build_observations(
                 "chance."
             ),
             kind="descriptive",
-            href="/frequency",
         )
     )
 
@@ -82,7 +80,6 @@ def build_observations(
                 f"{MAX_ENTROPY_BITS:.6f} bits per digit. Measures single-digit balance only."
             ),
             kind="descriptive",
-            href="/statistics",
         )
     )
 
@@ -98,7 +95,8 @@ def build_observations(
                 "digits."
             ),
             kind="descriptive",
-            href=f"/explorer?position={run.position}&highlight={run.length}",
+            position=run.position,
+            length=run.length,
         )
     )
 
@@ -117,7 +115,6 @@ def build_observations(
                     "of 20 lags often falls a little outside that band."
                 ),
                 kind="descriptive",
-                href="/statistics",
             )
         )
 
@@ -156,7 +153,6 @@ def _ngram_coverage(digits: DigitArray, max_ngram: int) -> Observation | None:
             if complete_up_to
             else f"{missing:,} single digits do not occur in this range.",
             kind="descriptive",
-            href=f"/frequency?n={length}",
         )
     if complete_up_to == 0:
         return None
@@ -166,5 +162,4 @@ def _ngram_coverage(digits: DigitArray, max_ngram: int) -> Observation | None:
         value=f"all sequences up to {complete_up_to} digits",
         detail=f"Every possible sequence of length 1 to {complete_up_to} occurs in this range.",
         kind="descriptive",
-        href="/frequency",
     )

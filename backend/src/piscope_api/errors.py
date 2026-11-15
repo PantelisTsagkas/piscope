@@ -5,6 +5,7 @@ import logging
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from pydantic import ValidationError
 
 from piscope_engine.errors import (
     DatasetIntegrityError,
@@ -55,6 +56,15 @@ def register_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(RequestLimitError)
     def limit_exceeded(_: Request, exc: RequestLimitError) -> JSONResponse:
         return JSONResponse(status_code=422, content=_body("limit_exceeded", str(exc)))
+
+    @app.exception_handler(ValidationError)
+    def response_model_invalid(_: Request, exc: ValidationError) -> JSONResponse:
+        # Raised while building a response, so it is a server bug, not bad input.
+        # Registered separately because pydantic's ValidationError is a ValueError.
+        logger.error("response model validation failed: %s", exc)
+        return JSONResponse(
+            status_code=500, content=_body("internal_error", "unexpected server error")
+        )
 
     @app.exception_handler(ValueError)
     def invalid_value(_: Request, exc: ValueError) -> JSONResponse:

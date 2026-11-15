@@ -6,8 +6,9 @@ explains what those statistics mean and, just as importantly, what they cannot s
 ## The short version
 
 - The normality of pi, in base 10 or any other base, **has not been proven**.
-- Every statistical test ever run on the digits of pi is consistent with normality. That
-  is empirical evidence about the digits examined, not a proof about all of them.
+- Published statistical studies of the digits of pi, some covering trillions of digits,
+  have found nothing inconsistent with normality. That is empirical evidence about the
+  digits examined, not a proof about all of them.
 - Passing randomness tests does not make a sequence random. The digits of pi are fully
   determined; "random" here only ever means "statistically indistinguishable from a random
   sequence on the measures tested".
@@ -195,8 +196,8 @@ generator is itself a deterministic algorithm.
 - Striking finds in the data are expected. The six consecutive 9s starting at decimal
   position 762 look remarkable. Under a random model about nine runs of six or more
   identical digits are expected per million digits (n x 0.81 x 0.1^5 for length six alone
-  is 8.1), so the run itself is ordinary. Seeing one that early is less common, well under
-  1% for the first 800 digits, but it was singled out after the fact from countless
+  is 8.1), so the run itself is ordinary. Seeing one that early is less common, roughly
+  0.7% for the first 762 positions (762 x 0.9 x 10^-5), but it was singled out after the fact from countless
   curiosities that could have been noticed instead, which is exactly the situation the
   multiple-testing section warns about. PiScope shows the expected count next to the
   observed one for this reason.

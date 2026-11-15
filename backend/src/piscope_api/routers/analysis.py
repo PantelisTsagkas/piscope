@@ -350,6 +350,7 @@ def windows(
         cells_beyond_three=analysis.cells_beyond_three,
         expected_cells_beyond_three=cells * 0.0027,
         max_abs_z=analysis.max_abs_z,
+        approximation_reliable=analysis.window_size >= 50,
         note=notes.WINDOW_NOTE,
     )
 

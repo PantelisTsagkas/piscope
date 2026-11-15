@@ -177,6 +177,7 @@ def test_compare_reports_the_seed_it_chose(client: TestClient) -> None:
         ({"count": 5}, "validation_error"),
         ({"simulations": 0}, "validation_error"),
         ({"seed": -1}, "validation_error"),
+        ({"seed": 2**53}, "validation_error"),
         ({"simulations": 201, "count": 100}, "limit_exceeded"),
         ({"count": 20_000}, "position_out_of_range"),
     ],
@@ -198,6 +199,10 @@ def test_windows(client: TestClient, pi_text: str) -> None:
     assert row["counts"] == [window_counts[str(d)] for d in range(10)]
     assert row["standardized"][0] == pytest.approx((row["counts"][0] - 125) / (1_250 * 0.09) ** 0.5)
     assert body["expected_cells_beyond_two"] == pytest.approx(80 * 0.0455)
+    assert body["approximation_reliable"] is True
+    tiny = client.get("/api/v1/analysis/windows", params={"count": 400, "windows": 10}).json()
+    assert tiny["window_size"] == 40
+    assert tiny["approximation_reliable"] is False
     assert (
         client.get("/api/v1/analysis/windows", params={"windows": 201}).json()["error"]["code"]
         == "limit_exceeded"
@@ -222,6 +227,7 @@ def test_observations_are_computed_from_the_digits(client: TestClient, pi_text: 
     by_key = {item["key"]: item for item in body["observations"]}
     assert by_key["longest_run"]["value"] == "999999"
     assert "762" in by_key["longest_run"]["detail"]
+    assert (by_key["longest_run"]["position"], by_key["longest_run"]["length"]) == (762, 6)
     counts = [Counter(pi_text)[str(d)] for d in range(10)]
     p_value = float(stats.chisquare(counts).pvalue)
     assert by_key["chi_square"]["value"] == f"p = {p_value:.3f}"
@@ -251,3 +257,22 @@ def test_in_memory_limit_is_enforced(settings, pi_text: str) -> None:
         assert limited.post("/api/v1/analysis/statistics", json={"count": 1_000}).status_code == 200
         observations = limited.get("/api/v1/analysis/observations").json()
         assert observations["sample_size"] == 1_000  # capped, and reported as such
+
+
+def test_largest_accepted_seed_round_trips(client: TestClient) -> None:
+    seed = 2**53 - 1
+    body = client.post(
+        "/api/v1/analysis/compare", json={"count": 500, "simulations": 1, "seed": seed}
+    ).json()
+    assert body["source"]["seed"] == seed
+
+
+def test_response_model_bug_is_a_server_error(settings, monkeypatch: pytest.MonkeyPatch) -> None:
+    from piscope_api.main import create_app
+    from piscope_api.routers import dataset
+
+    monkeypatch.setattr(dataset, "api_version", None)  # makes HealthResponse invalid
+    with TestClient(create_app(settings), raise_server_exceptions=False) as broken:
+        response = broken.get("/api/v1/health")
+    assert response.status_code == 500
+    assert response.json()["error"]["code"] == "internal_error"

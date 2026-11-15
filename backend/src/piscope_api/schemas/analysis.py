@@ -139,7 +139,13 @@ class CompareRequest(ApiModel):
     start: int = Field(default=1, ge=1)
     count: int = Field(default=100_000, ge=10, description="Digits in each sequence")
     seed: int | None = Field(
-        default=None, ge=0, le=2**63 - 1, description="Random seed; chosen and reported if omitted"
+        default=None,
+        ge=0,
+        le=2**53 - 1,
+        description=(
+            "Random seed, at most 2**53 - 1 so that JavaScript clients can repeat it exactly; "
+            "chosen and reported if omitted"
+        ),
     )
     simulations: int = Field(default=20, ge=1, description="Number of simulated sequences")
     tests: list[TestKey] = Field(default_factory=lambda: list(ALL_TEST_KEYS), min_length=1)
@@ -217,6 +223,9 @@ class WindowResponse(ApiModel):
     cells_beyond_three: int
     expected_cells_beyond_three: float
     max_abs_z: float
+    approximation_reliable: bool = Field(
+        description="False when windows hold fewer than 50 digits and z-scores are unreliable"
+    )
     note: str
 
 
@@ -254,7 +263,8 @@ class Observation(ApiModel):
     value: str
     detail: str
     kind: Literal["descriptive", "test"]
-    href: str | None = Field(default=None, description="App path with more detail")
+    position: int | None = Field(default=None, description="Position this refers to, if any")
+    length: int | None = Field(default=None, description="Length of the sequence at position")
 
 
 class ObservationsResponse(ApiModel):
