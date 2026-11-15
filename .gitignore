@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.benchmarks/
+*.egg-info/
+dist/
+
+# Node
+node_modules/
+.next/
+out/
+frontend/test-results/
+frontend/playwright-report/
+frontend/coverage/
+*.tsbuildinfo
+
+# Generated data: reproducible with `uv run piscope-digits generate`
+data/*
+!data/.gitkeep
+
+# Local
+.env
+.env.local
+.DS_Store
