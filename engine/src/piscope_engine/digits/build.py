@@ -17,6 +17,11 @@ from piscope_engine.digits.generation import (
 )
 from piscope_engine.digits.indexing import DEFAULT_CHUNK_SIZE
 from piscope_engine.digits.manifest import DatasetManifest, VerificationRecord
+from piscope_engine.digits.reference import (
+    REFERENCE_CHUNK_SHA256,
+    REFERENCE_CHUNK_SIZE,
+    REFERENCE_SOURCE,
+)
 from piscope_engine.digits.writer import write_dataset
 from piscope_engine.errors import VerificationError
 
@@ -102,6 +107,38 @@ def verify_against_text(digits: DigitArray, path: Path, source: str) -> Verifica
     )
 
 
+def verify_against_known_checksums(digits: DigitArray) -> list[VerificationRecord]:
+    """Compare leading million-digit blocks with checksums of published digit files.
+
+    Only blocks that are fully covered by ``digits`` and have a shipped reference
+    checksum are compared, so short datasets produce no record.
+
+    Raises:
+        VerificationError: If a covered block does not match its published checksum.
+    """
+    compared = 0
+    for index, expected in sorted(REFERENCE_CHUNK_SHA256.items()):
+        begin = index * REFERENCE_CHUNK_SIZE
+        end = begin + REFERENCE_CHUNK_SIZE
+        if digits.size < end:
+            break
+        actual = hashlib.sha256(digits[begin:end].tobytes()).hexdigest()
+        if actual != expected:
+            raise VerificationError(
+                f"positions {begin + 1}..{end} do not match the published checksum; nothing written"
+            )
+        compared = end
+    if compared == 0:
+        return []
+    return [
+        VerificationRecord(
+            method="published-checksum",
+            digits_compared=compared,
+            detail=f"SHA-256 comparison against {REFERENCE_SOURCE}",
+        )
+    ]
+
+
 def build_dataset(
     data_dir: Path,
     total_digits: int,
@@ -149,6 +186,7 @@ def build_dataset(
             ),
         )
     ]
+    verifications.extend(verify_against_known_checksums(digits))
     if reference_file is not None:
         source = reference_source or str(reference_file)
         verifications.append(verify_against_text(digits, reference_file, source))

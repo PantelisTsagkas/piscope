@@ -114,3 +114,17 @@ def test_empty_stream_is_rejected(tmp_path: Path) -> None:
 def test_no_temp_files_left_behind(tmp_path: Path, synthetic_digits: NDArray[np.uint8]) -> None:
     _write(tmp_path, [synthetic_digits])
     assert not list(tmp_path.glob("*.tmp"))
+
+
+def test_failed_expansion_leaves_dataset_readable(
+    tmp_path: Path, synthetic_digits: NDArray[np.uint8]
+) -> None:
+    _write(tmp_path, [synthetic_digits[:250]])  # chunk 2 is partial (50 digits)
+    bad_later_block = np.array([1, 2, 77], dtype=np.uint8)
+    with pytest.raises(ValueError, match="0-9"):
+        _write(tmp_path, [synthetic_digits[:400], bad_later_block])
+    store = DigitStore(tmp_path)  # must still open: the partial chunk was not replaced
+    assert store.total_digits == 250
+    store.verify_checksums()
+    np.testing.assert_array_equal(store.get_range(1, 250), synthetic_digits[:250])
+    assert not list(tmp_path.glob("*.tmp"))

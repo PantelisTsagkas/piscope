@@ -10,6 +10,7 @@ from piscope_engine.digits.build import (
     build_dataset,
     first_mismatch,
     iter_digits_from_text,
+    verify_against_known_checksums,
     verify_against_text,
 )
 from piscope_engine.digits.generation import chudnovsky_digits, gauss_legendre_digits
@@ -151,3 +152,14 @@ def test_text_reader_rejects_garbage(tmp_path: Path) -> None:
     path.write_text("3.1415x9")
     with pytest.raises(VerificationError, match="non-digit"):
         list(iter_digits_from_text(path))
+
+
+def test_known_checksum_check_covers_first_million() -> None:
+    digits = chudnovsky_digits(1_000_000)
+    records = verify_against_known_checksums(digits)
+    assert [record.method for record in records] == ["published-checksum"]
+    assert records[0].digits_compared == 1_000_000
+    assert verify_against_known_checksums(digits[:999_999]) == []
+    digits[123_456] = (digits[123_456] + 1) % 10
+    with pytest.raises(VerificationError, match="published checksum"):
+        verify_against_known_checksums(digits)

@@ -1,7 +1,7 @@
 [project]
 name = "piscope-api"
 version = "0.1.0"
-description = "Add your description here"
+description = "HTTP API for PiScope"
 readme = "README.md"
 authors = [
     { name = "Pantelis Tsagkas", email = "102387490+PantelisTsagkas@users.noreply.github.com" }
@@ -9,14 +9,14 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.163.1",
-    "piscope-engine",
+    "piscope-engine[generate]",
     "pydantic>=2.14.3",
     "pydantic-settings>=2.16.3",
     "uvicorn[standard]>=0.54.0",
 ]
 
 [project.scripts]
-piscope-api = "piscope_api:main"
+piscope-api = "piscope_api.main:main"
 
 [build-system]
 requires = ["uv_build>=0.11.7,<0.12.0"]

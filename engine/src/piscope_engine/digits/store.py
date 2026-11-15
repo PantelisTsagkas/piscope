@@ -1,6 +1,7 @@
 """Read-only, memory-mapped access to a stored digit dataset."""
 
 import hashlib
+import threading
 from collections import OrderedDict
 from collections.abc import Iterator
 from pathlib import Path
@@ -38,6 +39,7 @@ class DigitStore:
     Chunks are memory-mapped lazily and kept in a small least-recently-used cache, so
     memory use and open file handles stay bounded however large the dataset grows.
     All positions are 1-based: position 1 is the first digit after the decimal point.
+    Instances are safe to share between threads.
 
     Opening a store checks the manifest and the size of every chunk file. Checksums are
     not recomputed on open (that reads every byte); call :meth:`verify_checksums`.
@@ -56,6 +58,7 @@ class DigitStore:
         self._manifest = load_manifest(data_dir)
         self._max_open_chunks = max_open_chunks
         self._open_chunks: OrderedDict[int, np.memmap] = OrderedDict()
+        self._cache_lock = threading.Lock()
         for chunk in self._manifest.chunks:
             self._check_chunk_file(chunk)
 
@@ -104,21 +107,22 @@ class DigitStore:
             raise PositionOutOfRangeError(
                 f"chunk {chunk_index} does not exist (dataset has {self.chunk_count})"
             )
-        cached = self._open_chunks.get(chunk_index)
-        if cached is not None:
-            self._open_chunks.move_to_end(chunk_index)
-            return cached
-        record = self._manifest.chunks[chunk_index]
-        view = np.memmap(
-            self._data_dir / record.filename,
-            dtype=np.uint8,
-            mode="r",
-            shape=(record.digit_count,),
-        )
-        self._open_chunks[chunk_index] = view
-        if len(self._open_chunks) > self._max_open_chunks:
-            self._open_chunks.popitem(last=False)
-        return view
+        with self._cache_lock:
+            cached = self._open_chunks.get(chunk_index)
+            if cached is not None:
+                self._open_chunks.move_to_end(chunk_index)
+                return cached
+            record = self._manifest.chunks[chunk_index]
+            view = np.memmap(
+                self._data_dir / record.filename,
+                dtype=np.uint8,
+                mode="r",
+                shape=(record.digit_count,),
+            )
+            self._open_chunks[chunk_index] = view
+            if len(self._open_chunks) > self._max_open_chunks:
+                self._open_chunks.popitem(last=False)
+            return view
 
     def _require_range(self, start: int, count: int) -> None:
         if count < 0:
@@ -205,4 +209,5 @@ class DigitStore:
 
     def close(self) -> None:
         """Drop all cached memory maps."""
-        self._open_chunks.clear()
+        with self._cache_lock:
+            self._open_chunks.clear()
