@@ -3,6 +3,7 @@ name = "piscope-api"
 version = "0.1.0"
 description = "HTTP API for PiScope"
 readme = "README.md"
+license = "MIT"
 authors = [
     { name = "Pantelis Tsagkas", email = "102387490+PantelisTsagkas@users.noreply.github.com" }
 ]
