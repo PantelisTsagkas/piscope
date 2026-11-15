@@ -33,7 +33,12 @@ class Settings(BaseSettings):
     search_cache_entries: int = Field(default=32, ge=0, description="Cached search results")
 
     max_analysis_digits: int = Field(
-        default=100_000_000, ge=1, description="Digits per frequency or statistics request"
+        default=100_000_000, ge=1, description="Digits per frequency request (streamed)"
+    )
+    max_statistics_digits: int = Field(
+        default=10_000_000,
+        ge=1,
+        description="Digits per n-gram, statistics, window or run request (held in memory)",
     )
     max_ngram_length: int = Field(default=6, ge=1, le=7, description="Largest n for n-grams")
     max_ngram_rows: int = Field(default=1_000, ge=1, description="Rows per n-gram table page")
@@ -41,6 +46,11 @@ class Settings(BaseSettings):
     max_random_digits: int = Field(
         default=10_000_000, ge=1, description="Digits per simulated random sequence"
     )
+    max_simulations: int = Field(default=200, ge=1, description="Simulated sequences per request")
+    max_simulated_total_digits: int = Field(
+        default=50_000_000, ge=1, description="Simulated digits per request, all sequences"
+    )
+    max_windows: int = Field(default=200, ge=1, description="Windows per concentration request")
     max_experiments_returned: int = Field(default=100, ge=1)
 
     @property

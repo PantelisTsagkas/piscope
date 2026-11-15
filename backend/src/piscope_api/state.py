@@ -1,12 +1,13 @@
 """Application state and FastAPI dependencies."""
 
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Annotated
 
 from fastapi import Depends, Request
 
 from piscope_api.errors import DatasetUnavailableError
+from piscope_api.schemas.analysis import ObservationsResponse
 from piscope_api.services.experiments import ExperimentLog
 from piscope_api.services.search_cache import SearchCache
 from piscope_api.settings import Settings
@@ -27,6 +28,7 @@ class AppState:
         checksums_verified: True when every chunk passed its SHA-256 check at startup.
         search_cache: Cache of recent search results.
         experiments: Experiment log.
+        observation_cache: Dashboard observations keyed by range and dataset version.
     """
 
     settings: Settings
@@ -35,6 +37,9 @@ class AppState:
     checksums_verified: bool
     search_cache: SearchCache
     experiments: ExperimentLog
+    observation_cache: dict[tuple[int, int, str], ObservationsResponse] = field(
+        default_factory=dict
+    )
 
 
 def build_state(settings: Settings) -> AppState:
