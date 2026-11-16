@@ -29,7 +29,8 @@ export function FrequencyChart({
     const low = Math.max(0, Math.floor(expected - spread - padding));
     const high = Math.ceil(expected + spread + padding);
     return {
-      grid: { left: 8, right: 16, top: 36, bottom: 28, containLabel: true },
+      // Room on the right for the "expected" label, so it never sits on top of a bar.
+      grid: { left: 8, right: 64, top: 36, bottom: 28, containLabel: true },
       tooltip: {
         ...tooltipStyle,
         trigger: "axis",
@@ -81,7 +82,7 @@ export function FrequencyChart({
             label: {
               formatter: "expected",
               color: chartColors.amber,
-              position: "insideEndTop",
+              position: "end",
               fontSize: 11,
             },
             data: [{ yAxis: expected }],
