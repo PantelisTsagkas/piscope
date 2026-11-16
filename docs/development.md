@@ -120,6 +120,29 @@ docker compose down -v           # stop and delete the digits
 `API_PORT=8200 WEB_PORT=3200 docker compose up --build`. The frontend image is built with
 the API address the browser will use, so changing `API_PORT` needs `--build`.
 
+## Hosted deployment
+
+The public copy at <https://piscope.vercel.app> is the frontend on Vercel calling the API
+on Modal. Both are deployed by hand from a checkout.
+
+```bash
+uv run modal deploy deploy/modal_app.py      # API; prints its URL
+cd frontend && vercel deploy --prod          # interface
+```
+
+- `deploy/modal_app.py` builds an image from `uv.lock`, generates and verifies the first
+  million digits at build time, and serves the API from at most one container that scales
+  to zero after five minutes idle. The first request after that takes about five seconds.
+- The Vercel project has one production variable, `NEXT_PUBLIC_API_URL`, set to the Modal
+  URL. `WEB_ORIGINS` in `deploy/modal_app.py` must list the interface's origin, or the
+  browser will refuse the API's responses.
+- Request limits are lower than the local defaults (`PUBLIC_LIMITS` in the same file),
+  because the URL is open to anyone.
+- The experiment log is on the container's own disk. Every visitor shares it, any visitor
+  can clear it, and it is emptied whenever the container stops.
+
+To take it down: `uv run modal app stop piscope-api` and `vercel project rm piscope`.
+
 ## Larger datasets
 
 ```bash

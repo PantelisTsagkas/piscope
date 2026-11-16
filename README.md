@@ -2,6 +2,9 @@
 
 **Status: ACTIVE**
 
+**Live: <https://piscope.vercel.app>** (the API sleeps when idle, so the first load can take
+about five seconds)
+
 An interactive environment for exploring the decimal digits of pi: read them, search
 them, count them, test them statistically and compare them with simulated random
 sequences. Every number on screen is computed from verified digits when you ask for it.

@@ -14,6 +14,7 @@ select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "C4", "PT", "RUF", "TID"]
 
 [tool.ruff.lint.per-file-ignores]
 "backend/**" = ["TID251"]
+"deploy/**" = ["TID251"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["piscope_engine", "piscope_api"]
@@ -33,6 +34,7 @@ markers = [
 [dependency-groups]
 dev = [
     "httpx2>=2.16.0",
+    "modal>=1.6.4",
     "pytest>=9.2.0",
     "ruff>=0.17.5",
     "ty>=0.0.104",
