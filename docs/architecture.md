@@ -3,7 +3,7 @@
 ## Layers
 
 ```text
-frontend/   Next.js UI. Talks to the API over HTTP only.
+frontend/   Next.js UI. Talks to the API over HTTP only; computes nothing itself.
 backend/    piscope-api: FastAPI routers, Pydantic schemas, request limits,
             search cache, experiment log. No mathematics lives here.
 engine/     piscope-engine: digit storage, generation, search, statistics,
@@ -83,16 +83,31 @@ chunks, 1 billion is 1,000 chunks, read through the same code. What does not sca
 billion digits is listed here rather than hidden:
 
 - **Generation is in memory.** `chudnovsky_digits` holds the whole number as one big
-  integer. It takes about a second for 1 million digits (measured). The practical
-  ceiling of roughly 100 million is an estimate from memory use, not a measurement. Beyond that, digits should come from a dedicated program such as y-cruncher
+  integer. Generating and verifying takes about 1 s for 1 million digits and 22 s for
+  10 million, with a peak of about 310 MB of memory at 10 million (both measured). The
+  practical ceiling of roughly 100 million is an extrapolation from that memory use, not a
+  measurement. Beyond that, digits should come from a dedicated program such as y-cruncher
   and be streamed in: `write_dataset` accepts an iterator of blocks, and
   `iter_digits_from_text` streams a text file.
 - **Array-based analyses** (n-grams, tests, windows, runs) load their range into memory and
   are capped by `PISCOPE_MAX_STATISTICS_DIGITS` (default 10 million). Frequency counting
   and search stream chunk by chunk and have no such ceiling.
-- **Search is a linear scan**, about 0.5 ms per million digits. Extrapolated, not measured, a billion digits would
-  take around half a second per uncached pattern; an index (suffix array or n-gram index) is the
+- **Search is a linear scan**, about 0.6 ms per million digits: 6 ms for `314159` over
+  10 million digits (measured). Extrapolated, not measured, a billion digits would take
+  around half a second per uncached pattern; an index (suffix array or n-gram index) is the
   next step if that becomes too slow.
+
+### Checked at 10 million digits
+
+Chunk boundaries are unit-tested with small synthetic chunks, and
+`engine/tests/test_real_chunks.py` (marked `slow`, about 5 s) repeats the checks on three
+real one-million-digit chunks in every test run. They were also exercised once by hand on
+a larger dataset: the 1 million digit dataset was expanded to 10 million (10 chunks; chunk 0 was
+recognised by checksum and left untouched) and compared with a flat scan of the
+concatenated chunk files. Ranges crossing real boundaries and 14 searches, including nine
+sequences that straddle a boundary, matched exactly. Through the API on that dataset,
+measured on an Apple M-series laptop: frequency 25 ms, the full test battery 62 ms, 5-gram
+counts 79 ms, runs 289 ms, dashboard observations 429 ms.
 
 ### Expanding a dataset
 
@@ -206,6 +221,38 @@ Design points:
 - Experiments (searches, test runs, comparisons) are appended to a JSON Lines file with
   the parameters needed to repeat them, including the seed, bit generator and NumPy
   version of every simulation. A file is enough; there is no database.
+
+## Frontend
+
+Next.js (App Router), TypeScript in strict mode, Tailwind CSS, shadcn/ui components and
+Apache ECharts. Decisions worth knowing:
+
+- **The browser calls the API directly.** There is no server-side data fetching and no
+  proxy, so there is one API address (`NEXT_PUBLIC_API_URL`) instead of one for the
+  browser and another for a server inside Docker. The cost is that the address is inlined
+  at build time: changing it means rebuilding, and the API must allow the frontend's
+  origin through CORS (`PISCOPE_CORS_ORIGINS`).
+- **Pages render in the browser only.** Each route prerenders a skeleton and mounts its
+  view after hydration (`components/shared/client-page.tsx`). Every view depends on the URL
+  and on live API data, so a server render would have nothing to show, and waiting for
+  hydration avoids markup mismatches when cached data arrives first.
+- **Types come from the API.** `scripts/export_openapi.py` writes the OpenAPI schema and
+  `openapi-typescript` turns it into `frontend/lib/api/schema.d.ts`. Both files are
+  committed and CI fails if they drift from the Pydantic models.
+- **State lives in the URL.** The analysis range, search pattern, result page and explorer
+  position are query parameters, so any view can be bookmarked, shared and repeated.
+  Experiments link back to the page with their recorded parameters, including the seed.
+- **Limits come from the server.** Forms validate against the `limits` reported by
+  `/dataset/info`, not constants copied into the frontend.
+- **No mathematics in the frontend.** Counts, deviations, p-values and interpretations
+  are displayed as the API returns them. The one exception is highlighting a sequence
+  within the digits already on screen in the explorer, which is a plain substring search.
+- **Tests run only when asked.** Frequency and n-gram views load with the page. The test
+  battery and random comparison need a button press, because each run is logged and adds
+  to the number of comparisons a user has made.
+- **Charts say what they hide.** Count axes that do not start at zero are labelled as
+  truncated, heatmaps use a fixed -3 to +3 scale so ordinary noise is not stretched, and
+  each chart has an accessible description and a table or summary of the same numbers.
 
 ## Performance
 
