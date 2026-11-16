@@ -91,6 +91,8 @@ export function AutocorrelationChart({ lags, band }: { lags: LagPoint[]; band: n
               : {
                   silent: true,
                   symbol: "none",
+                  // The default precision of 2 would round a band of 0.002 to zero.
+                  precision: 8,
                   lineStyle: { color: chartColors.amber, type: "dashed", width: 1 },
                   label: { color: chartColors.amber, fontSize: 11, position: "insideEndTop" },
                   data: [
