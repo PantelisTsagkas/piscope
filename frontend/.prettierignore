@@ -1,0 +1,11 @@
+.next/
+node_modules/
+pnpm-lock.yaml
+components/ui/
+lib/api/schema.d.ts
+lib/api/openapi.json
+tests/fixtures/*.json
+playwright-report/
+test-results/
+coverage/
+AGENTS.md

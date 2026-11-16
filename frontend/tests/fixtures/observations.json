@@ -1,0 +1,62 @@
+{
+  "range_start": 1,
+  "range_end": 1000000,
+  "sample_size": 1000000,
+  "observations": [
+    {
+      "key": "chi_square",
+      "title": "Digit frequency fit",
+      "value": "p = 0.788",
+      "detail": "Chi-square 5.51 on 9 degrees of freedom against a uniform model. A single test on one range; not evidence of normality.",
+      "kind": "test",
+      "position": null,
+      "length": null
+    },
+    {
+      "key": "largest_deviation",
+      "title": "Largest digit deviation",
+      "value": "digit 6: -1.51 sd",
+      "detail": "Digit 6 occurs 99,548 times against 100,000.0 expected. The largest of ten deviations is usually between 1 and 2.5 sd by chance.",
+      "kind": "descriptive",
+      "position": null,
+      "length": null
+    },
+    {
+      "key": "entropy",
+      "title": "Shannon entropy",
+      "value": "3.321924 bits",
+      "detail": "99.99988% of the maximum 3.321928 bits per digit. Measures single-digit balance only.",
+      "kind": "descriptive",
+      "position": null,
+      "length": null
+    },
+    {
+      "key": "longest_run",
+      "title": "Longest repeated digit",
+      "value": "3333333",
+      "detail": "7 consecutive 3s starting at position 710,100. A run of about 7 is typical for 1,000,000 random digits.",
+      "kind": "descriptive",
+      "position": 710100,
+      "length": 7
+    },
+    {
+      "key": "autocorrelation",
+      "title": "Strongest autocorrelation",
+      "value": "-0.00215 at lag 10",
+      "detail": "Largest of lags 1 to 20. Values within 0.00196 of zero are ordinary for this sample size, and the largest of 20 lags often falls a little outside that band.",
+      "kind": "descriptive",
+      "position": null,
+      "length": null
+    },
+    {
+      "key": "ngram_coverage",
+      "title": "Sequence coverage",
+      "value": "all 4-digit, 99,992 of 100,000 5-digit",
+      "detail": "Every possible sequence of length 4 occurs in this range; 8 sequences of length 5 do not. Missing sequences are expected whenever the range is short relative to the number of possibilities.",
+      "kind": "descriptive",
+      "position": null,
+      "length": null
+    }
+  ],
+  "caveat": "Computed from the stored digits on request. Observations are descriptive: they report what this finite range contains and are not evidence of hidden structure in pi."
+}

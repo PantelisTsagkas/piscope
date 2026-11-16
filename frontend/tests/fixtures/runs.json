@@ -1,0 +1,69 @@
+{
+  "range_start": 1,
+  "range_end": 1000000,
+  "longest": [
+    {
+      "digit": 3,
+      "length": 7,
+      "position": 710100
+    },
+    {
+      "digit": 9,
+      "length": 6,
+      "position": 762
+    },
+    {
+      "digit": 9,
+      "length": 6,
+      "position": 193034
+    },
+    {
+      "digit": 8,
+      "length": 6,
+      "position": 222299
+    },
+    {
+      "digit": 5,
+      "length": 6,
+      "position": 244453
+    }
+  ],
+  "distribution": [
+    {
+      "length": 1,
+      "observed": 809776,
+      "expected": 810000
+    },
+    {
+      "length": 2,
+      "observed": 81256,
+      "expected": 81000
+    },
+    {
+      "length": 3,
+      "observed": 7976,
+      "expected": 8100.000000000002
+    },
+    {
+      "length": 4,
+      "observed": 830,
+      "expected": 810.0000000000002
+    },
+    {
+      "length": 5,
+      "observed": 77,
+      "expected": 81.00000000000001
+    },
+    {
+      "length": 6,
+      "observed": 12,
+      "expected": 8.100000000000001
+    },
+    {
+      "length": 7,
+      "observed": 1,
+      "expected": 0.8100000000000003
+    }
+  ],
+  "note": "A run is a maximal block of one repeated digit. Expected counts assume independent uniform digits: about n x 0.81 x 0.1^(k-1) runs of length k. Long runs are certain to appear in a long enough random sequence."
+}

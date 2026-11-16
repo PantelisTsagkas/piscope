@@ -1,0 +1,58 @@
+{
+  "constant": "pi",
+  "base": 10,
+  "integer_part": "3",
+  "total_digits": 1000000,
+  "first_position": 1,
+  "last_position": 1000000,
+  "chunk_size": 1000000,
+  "chunk_count": 1,
+  "has_partial_chunk": false,
+  "indexing": "position 1 is the first digit after the decimal point; the integer digit 3 is not stored",
+  "encoding": "one unsigned byte per decimal digit, values 0-9",
+  "generator": {
+    "algorithm": "chudnovsky-binary-splitting",
+    "terms": 70520,
+    "guard_digits": 64,
+    "rounding": "truncated, not rounded",
+    "arithmetic": "gmpy2 2.3.2",
+    "engine_version": "0.1.0"
+  },
+  "verifications": [
+    {
+      "method": "gauss-legendre",
+      "digits_compared": 1000000,
+      "detail": "independent Gauss-Legendre (Brent-Salamin) AGM iteration in fixed-point integer arithmetic, 64 guard digits, all digits compared"
+    },
+    {
+      "method": "published-reference",
+      "digits_compared": 1000000,
+      "detail": "source: https://www.angio.net/pi/digits/pi1000000.txt (retrieved 2026-11-16); file sha256: b50ea720602439dcb8a56265b75fadfa4d0a0fbd46d9705693dde14b8a053fb0"
+    }
+  ],
+  "checksums_verified_at_startup": true,
+  "created_at": "2026-11-15T22:28:49+00:00",
+  "updated_at": "2026-11-15T22:28:49+00:00",
+  "chunks": [
+    {
+      "index": 0,
+      "first_position": 1,
+      "digit_count": 1000000,
+      "sha256": "344b0f42bd832f29a22d6b829af80e325c4fac22d88a1efb5e21b7a3632c1086",
+      "complete": true
+    }
+  ],
+  "limits": {
+    "max_range_digits": 10000,
+    "max_pattern_length": 1000,
+    "search_max_limit": 1000,
+    "max_analysis_digits": 100000000,
+    "max_statistics_digits": 10000000,
+    "max_simulations": 200,
+    "max_simulated_total_digits": 50000000,
+    "max_windows": 200,
+    "max_ngram_length": 6,
+    "max_autocorrelation_lag": 100,
+    "max_random_digits": 10000000
+  }
+}

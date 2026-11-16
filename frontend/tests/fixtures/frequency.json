@@ -1,0 +1,95 @@
+{
+  "range_start": 1,
+  "range_end": 1000000,
+  "sample_size": 1000000,
+  "expected_relative_frequency": 0.1,
+  "digits": [
+    {
+      "digit": 0,
+      "count": 99959,
+      "relative_frequency": 0.099959,
+      "expected_count": 100000,
+      "deviation": -41,
+      "standardized_deviation": -0.13666666666666666
+    },
+    {
+      "digit": 1,
+      "count": 99758,
+      "relative_frequency": 0.099758,
+      "expected_count": 100000,
+      "deviation": -242,
+      "standardized_deviation": -0.8066666666666666
+    },
+    {
+      "digit": 2,
+      "count": 100026,
+      "relative_frequency": 0.100026,
+      "expected_count": 100000,
+      "deviation": 26,
+      "standardized_deviation": 0.08666666666666667
+    },
+    {
+      "digit": 3,
+      "count": 100229,
+      "relative_frequency": 0.100229,
+      "expected_count": 100000,
+      "deviation": 229,
+      "standardized_deviation": 0.7633333333333333
+    },
+    {
+      "digit": 4,
+      "count": 100230,
+      "relative_frequency": 0.10023,
+      "expected_count": 100000,
+      "deviation": 230,
+      "standardized_deviation": 0.7666666666666667
+    },
+    {
+      "digit": 5,
+      "count": 100359,
+      "relative_frequency": 0.100359,
+      "expected_count": 100000,
+      "deviation": 359,
+      "standardized_deviation": 1.1966666666666668
+    },
+    {
+      "digit": 6,
+      "count": 99548,
+      "relative_frequency": 0.099548,
+      "expected_count": 100000,
+      "deviation": -452,
+      "standardized_deviation": -1.5066666666666666
+    },
+    {
+      "digit": 7,
+      "count": 99800,
+      "relative_frequency": 0.0998,
+      "expected_count": 100000,
+      "deviation": -200,
+      "standardized_deviation": -0.6666666666666666
+    },
+    {
+      "digit": 8,
+      "count": 99985,
+      "relative_frequency": 0.099985,
+      "expected_count": 100000,
+      "deviation": -15,
+      "standardized_deviation": -0.05
+    },
+    {
+      "digit": 9,
+      "count": 100106,
+      "relative_frequency": 0.100106,
+      "expected_count": 100000,
+      "deviation": 106,
+      "standardized_deviation": 0.35333333333333333
+    }
+  ],
+  "most_frequent": [
+    5
+  ],
+  "least_frequent": [
+    6
+  ],
+  "note": "Expected counts assume each digit is equally likely (1/10). Deviations of a few standard deviations are normal in any finite sample; the chi-square test in the Statistical Lab tests the whole distribution at once."
+}

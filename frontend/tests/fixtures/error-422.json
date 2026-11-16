@@ -1,0 +1,12 @@
+{
+  "error": {
+    "code": "validation_error",
+    "message": "position: Input should be greater than or equal to 1",
+    "details": [
+      {
+        "field": "position",
+        "message": "Input should be greater than or equal to 1"
+      }
+    ]
+  }
+}

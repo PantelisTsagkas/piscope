@@ -1,0 +1,156 @@
+{
+  "experiments": [
+    {
+      "id": "d0ac59d38dec446ea172e5dca2aa1eab",
+      "timestamp": "2026-11-16T08:07:48+00:00",
+      "kind": "comparison",
+      "title": "Pi positions 1 to 10,000 vs 5 random sequence(s)",
+      "parameters": {
+        "start": 1,
+        "count": 10000,
+        "seed": 42,
+        "simulations": 5,
+        "tests": [
+          "chi_square",
+          "shannon_entropy",
+          "autocorrelation",
+          "runs",
+          "ngram_blocks"
+        ],
+        "max_lag": 3,
+        "ngram_length": 2,
+        "runs_dichotomy": "high_low",
+        "bit_generator": "PCG64",
+        "numpy_version": "2.5.5"
+      },
+      "summary": {
+        "percentiles": {
+          "chi_square": 0.6,
+          "shannon_entropy": 0.4,
+          "autocorrelation": 0.4,
+          "runs": 0.8,
+          "ngram_blocks": 1
+        }
+      }
+    },
+    {
+      "id": "01bca3d1929a4467ab655eff767defe1",
+      "timestamp": "2026-11-16T08:07:48+00:00",
+      "kind": "statistics",
+      "title": "Statistical tests on positions 1 to 1,000,000",
+      "parameters": {
+        "start": 1,
+        "count": 1000000,
+        "tests": [
+          "chi_square",
+          "shannon_entropy",
+          "autocorrelation",
+          "runs",
+          "ngram_blocks"
+        ],
+        "max_lag": 5,
+        "ngram_length": 2,
+        "runs_dichotomy": "high_low",
+        "correction": "holm"
+      },
+      "summary": {
+        "p_values": {
+          "chi_square": 0.7878669435508684,
+          "autocorrelation": 0.6163552231198072,
+          "runs": 0.02307656309773274,
+          "ngram_blocks": 0.30097519319817156
+        },
+        "adjusted_p_values": {
+          "chi_square": 1,
+          "autocorrelation": 1,
+          "runs": 0.09230625239093096,
+          "ngram_blocks": 0.9029255795945147
+        }
+      }
+    },
+    {
+      "id": "20de87aee0b84ecd8791f6c5dce5b85c",
+      "timestamp": "2026-11-16T08:06:28+00:00",
+      "kind": "search",
+      "title": "Search for 999999",
+      "parameters": {
+        "pattern": "999999",
+        "start": 1,
+        "end": 1000000
+      },
+      "summary": {
+        "total_count": 2,
+        "first_position": 762,
+        "expected_count": 0.999995
+      }
+    },
+    {
+      "id": "f781b309ab9b4dbabfa0862d7f4d68d1",
+      "timestamp": "2026-11-16T07:55:08+00:00",
+      "kind": "comparison",
+      "title": "Pi positions 1 to 10,000 vs 5 random sequence(s)",
+      "parameters": {
+        "start": 1,
+        "count": 10000,
+        "seed": 42,
+        "simulations": 5,
+        "tests": [
+          "chi_square",
+          "shannon_entropy",
+          "autocorrelation",
+          "runs",
+          "ngram_blocks"
+        ],
+        "max_lag": 3,
+        "ngram_length": 2,
+        "runs_dichotomy": "high_low",
+        "bit_generator": "PCG64",
+        "numpy_version": "2.5.5"
+      },
+      "summary": {
+        "percentiles": {
+          "chi_square": 0.6,
+          "shannon_entropy": 0.4,
+          "autocorrelation": 0.4,
+          "runs": 0.8,
+          "ngram_blocks": 1
+        }
+      }
+    },
+    {
+      "id": "ce0e5949d5ce4183a054c9ba7a6ebedd",
+      "timestamp": "2026-11-16T07:55:08+00:00",
+      "kind": "statistics",
+      "title": "Statistical tests on positions 1 to 1,000,000",
+      "parameters": {
+        "start": 1,
+        "count": 1000000,
+        "tests": [
+          "chi_square",
+          "shannon_entropy",
+          "autocorrelation",
+          "runs",
+          "ngram_blocks"
+        ],
+        "max_lag": 5,
+        "ngram_length": 2,
+        "runs_dichotomy": "high_low",
+        "correction": "holm"
+      },
+      "summary": {
+        "p_values": {
+          "chi_square": 0.7878669435508684,
+          "autocorrelation": 0.6163552231198072,
+          "runs": 0.02307656309773274,
+          "ngram_blocks": 0.30097519319817156
+        },
+        "adjusted_p_values": {
+          "chi_square": 1,
+          "autocorrelation": 1,
+          "runs": 0.09230625239093096,
+          "ngram_blocks": 0.9029255795945147
+        }
+      }
+    }
+  ]
+}

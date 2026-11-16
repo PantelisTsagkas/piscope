@@ -1,0 +1,194 @@
+{
+  "range_start": 1,
+  "range_end": 1000000,
+  "sample_size": 1000000,
+  "results": [
+    {
+      "key": "chi_square",
+      "name": "Chi-square goodness of fit",
+      "statistic_name": "chi-square",
+      "statistic": 5.50908,
+      "expected_statistic": 9,
+      "expected_description": "mean of the chi-square distribution (its degrees of freedom)",
+      "p_value": 0.7878669435508684,
+      "adjusted_p_value": 1,
+      "degrees_of_freedom": 9,
+      "sample_size": 1000000,
+      "null_hypothesis": "all 10 digits are equally likely",
+      "interpretation": "If the digits behaved like independent digits, each equally likely to be 0-9, a result at least this extreme would be expected in about 79% of samples. The data are compatible with the model on this measure.",
+      "assumptions": [
+        "Observations are independent.",
+        "Expected count per cell is at least 5."
+      ],
+      "limitations": [
+        "Describes only the finite range analysed. It says nothing about digits outside it and cannot prove or disprove that pi is normal.",
+        "A large p-value is an absence of evidence against the model, not evidence that the digits are random."
+      ],
+      "details": {
+        "cells": 10,
+        "expected_count_per_cell": 100000,
+        "approximation_reliable": true
+      }
+    },
+    {
+      "key": "shannon_entropy",
+      "name": "Shannon entropy",
+      "statistic_name": "bits per digit",
+      "statistic": 3.3219241198854284,
+      "expected_statistic": 3.3219216027596783,
+      "expected_description": "log2(10) minus the small-sample bias expected for uniform digits; the maximum possible value is 3.321928",
+      "p_value": null,
+      "adjusted_p_value": null,
+      "degrees_of_freedom": null,
+      "sample_size": 1000000,
+      "null_hypothesis": "none (descriptive measure)",
+      "interpretation": "The digit distribution carries 3.321924 bits per digit, 99.9999% of the maximum for ten symbols. Entropy close to the maximum means single digits are close to equally frequent.",
+      "assumptions": [
+        "Entropy is computed from single-digit frequencies only."
+      ],
+      "limitations": [
+        "First-order entropy ignores order: 0123456789 repeated forever also reaches the maximum.",
+        "The plug-in estimate is biased slightly downward in finite samples.",
+        "Describes only the finite range analysed. It says nothing about digits outside it and cannot prove or disprove that pi is normal."
+      ],
+      "details": {
+        "maximum_bits": 3.321928094887362,
+        "ratio_to_maximum": 0.9999988034051851,
+        "deficit_bits": 0.000003975001933831379
+      }
+    },
+    {
+      "key": "autocorrelation",
+      "name": "Autocorrelation (Ljung-Box)",
+      "statistic_name": "Ljung-Box Q",
+      "statistic": 3.5465553162182095,
+      "expected_statistic": 5,
+      "expected_description": "mean of the chi-square distribution (number of lags)",
+      "p_value": 0.6163552231198072,
+      "adjusted_p_value": 1,
+      "degrees_of_freedom": 5,
+      "sample_size": 1000000,
+      "null_hypothesis": "digit values are uncorrelated at lags 1 to 5",
+      "interpretation": "If the digits behaved like independent digits, each equally likely to be 0-9, a result at least this extreme would be expected in about 62% of samples. The data are compatible with the model on this measure. The largest single autocorrelation is -0.00139 at lag 1; for this sample size values within about 0.00196 of zero are ordinary.",
+      "assumptions": [
+        "Under the null model each autocorrelation is approximately normal with standard deviation 1/sqrt(n).",
+        "Digits are treated as numbers 0-9, so only linear dependence is measured."
+      ],
+      "limitations": [
+        "Only linear dependence between digit values at the tested lags is detected.",
+        "Describes only the finite range analysed. It says nothing about digits outside it and cannot prove or disprove that pi is normal.",
+        "A large p-value is an absence of evidence against the model, not evidence that the digits are random."
+      ],
+      "details": {
+        "max_lag": 5,
+        "confidence_band_95": 0.00196,
+        "lags": [
+          {
+            "lag": 1,
+            "autocorrelation": -0.001390643256495173,
+            "z": -1.390643256495173,
+            "p_value": 0.16433363237158238,
+            "p_value_holm": 0.8216681618579119
+          },
+          {
+            "lag": 2,
+            "autocorrelation": 0.00021838922585048904,
+            "z": 0.21838922585048903,
+            "p_value": 0.8271258594798795,
+            "p_value_holm": 1
+          },
+          {
+            "lag": 3,
+            "autocorrelation": -0.0006435588419959413,
+            "z": -0.6435588419959413,
+            "p_value": 0.5198615466873895,
+            "p_value_holm": 1
+          },
+          {
+            "lag": 4,
+            "autocorrelation": 0.0010723038826137856,
+            "z": 1.0723038826137856,
+            "p_value": 0.28358356344530034,
+            "p_value_holm": 1
+          },
+          {
+            "lag": 5,
+            "autocorrelation": 0.00003089055876372226,
+            "z": 0.03089055876372226,
+            "p_value": 0.9753568193466666,
+            "p_value_holm": 1
+          }
+        ],
+        "smallest_holm_adjusted_p_value": 0.8216681618579119
+      }
+    },
+    {
+      "key": "runs",
+      "name": "Runs test (Wald-Wolfowitz)",
+      "statistic_name": "z",
+      "statistic": 2.2721647229375614,
+      "expected_statistic": 0,
+      "expected_description": "z-score expected when the order of symbols is random",
+      "p_value": 0.02307656309773274,
+      "adjusted_p_value": 0.09230625239093096,
+      "degrees_of_freedom": null,
+      "sample_size": 1000000,
+      "null_hypothesis": "the order of digits 5-9 and digits 0-4 is random",
+      "interpretation": "If the digits behaved like independent digits, each equally likely to be 0-9, a result at least this extreme would be expected in about 2% of samples. That is somewhat unusual, but results like this turn up routinely when several tests are run. Treat it as exploratory unless it survives multiple-testing correction and was predicted in advance. There are 501,137 runs, more than the 500,000.9 expected.",
+      "assumptions": [
+        "Digits are recoded into two symbols: digits 5-9 versus digits 0-4.",
+        "The number of runs is approximately normal, which needs a large sample."
+      ],
+      "limitations": [
+        "Recoding to two symbols discards most of the information in the digits.",
+        "Describes only the finite range analysed. It says nothing about digits outside it and cannot prove or disprove that pi is normal.",
+        "A large p-value is an absence of evidence against the model, not evidence that the digits are random."
+      ],
+      "details": {
+        "dichotomy": "high_low",
+        "runs": 501137,
+        "expected_runs": 500000.918392,
+        "standard_deviation": 499.9996683916467,
+        "count_first_symbol": 499798,
+        "count_second_symbol": 500202,
+        "first_symbol": "digits 5-9",
+        "second_symbol": "digits 0-4"
+      }
+    },
+    {
+      "key": "ngram_blocks",
+      "name": "N-gram distribution (2-digit blocks)",
+      "statistic_name": "chi-square",
+      "statistic": 105.8272,
+      "expected_statistic": 99,
+      "expected_description": "mean of the chi-square distribution (its degrees of freedom)",
+      "p_value": 0.30097519319817156,
+      "adjusted_p_value": 0.9029255795945147,
+      "degrees_of_freedom": 99,
+      "sample_size": 500000,
+      "null_hypothesis": "all 100 possible 2-digit blocks are equally likely",
+      "interpretation": "If the digits behaved like independent digits, each equally likely to be 0-9, a result at least this extreme would be expected in about 30% of samples. The data are compatible with the model on this measure.",
+      "assumptions": [
+        "The sequence is cut into 500,000 non-overlapping blocks of 2 digits, which are independent under the null model.",
+        "Expected count per block value is at least 5."
+      ],
+      "limitations": [
+        "Describes only the finite range analysed. It says nothing about digits outside it and cannot prove or disprove that pi is normal.",
+        "A large p-value is an absence of evidence against the model, not evidence that the digits are random."
+      ],
+      "details": {
+        "cells": 100,
+        "expected_count_per_cell": 5000,
+        "approximation_reliable": true,
+        "block_length": 2,
+        "blocks": 500000,
+        "digits_used": 1000000
+      }
+    }
+  ],
+  "correction": "holm",
+  "family_size": 4,
+  "multiple_testing_note": "Each p-value answers one question. Running several tests, or trying several ranges and settings, makes at least one small p-value likely by chance alone. Adjusted p-values correct for the tests in this request only; they cannot account for other requests you have made. Treat anything found by exploring as a hypothesis to check on digits you have not looked at yet.",
+  "scope_note": "These results describe a finite range of digits. The normality of pi has not been proven, and passing statistical tests does not establish randomness or normality.",
+  "elapsed_ms": 5.608624996966682
+}

@@ -1,0 +1,2714 @@
+{
+  "components": {
+    "schemas": {
+      "ChunkInfo": {
+        "additionalProperties": false,
+        "description": "One chunk file.",
+        "properties": {
+          "complete": {
+            "title": "Complete",
+            "type": "boolean"
+          },
+          "digit_count": {
+            "title": "Digit Count",
+            "type": "integer"
+          },
+          "first_position": {
+            "title": "First Position",
+            "type": "integer"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "sha256": {
+            "title": "Sha256",
+            "type": "string"
+          }
+        },
+        "required": [
+          "index",
+          "first_position",
+          "digit_count",
+          "sha256",
+          "complete"
+        ],
+        "title": "ChunkInfo",
+        "type": "object"
+      },
+      "CompareRequest": {
+        "additionalProperties": false,
+        "description": "Compare a range of pi with simulated random digit sequences of the same length.",
+        "properties": {
+          "count": {
+            "default": 100000,
+            "description": "Digits in each sequence",
+            "minimum": 10.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "max_lag": {
+            "default": 20,
+            "minimum": 1.0,
+            "title": "Max Lag",
+            "type": "integer"
+          },
+          "ngram_length": {
+            "default": 2,
+            "minimum": 1.0,
+            "title": "Ngram Length",
+            "type": "integer"
+          },
+          "runs_dichotomy": {
+            "default": "high_low",
+            "enum": [
+              "high_low",
+              "parity"
+            ],
+            "title": "Runs Dichotomy",
+            "type": "string"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "maximum": 9007199254740991.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Random seed, at most 2**53 - 1 so that JavaScript clients can repeat it exactly; chosen and reported if omitted",
+            "title": "Seed"
+          },
+          "simulations": {
+            "default": 20,
+            "description": "Number of simulated sequences",
+            "minimum": 1.0,
+            "title": "Simulations",
+            "type": "integer"
+          },
+          "start": {
+            "default": 1,
+            "minimum": 1.0,
+            "title": "Start",
+            "type": "integer"
+          },
+          "tests": {
+            "items": {
+              "enum": [
+                "chi_square",
+                "shannon_entropy",
+                "autocorrelation",
+                "runs",
+                "ngram_blocks"
+              ],
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Tests",
+            "type": "array"
+          }
+        },
+        "title": "CompareRequest",
+        "type": "object"
+      },
+      "CompareResponse": {
+        "additionalProperties": false,
+        "description": "Pi versus simulated random sequences.",
+        "properties": {
+          "elapsed_ms": {
+            "title": "Elapsed Ms",
+            "type": "number"
+          },
+          "length": {
+            "title": "Length",
+            "type": "integer"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "pi_counts": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Pi Counts",
+            "type": "array"
+          },
+          "pi_results": {
+            "items": {
+              "$ref": "#/components/schemas/TestResultModel"
+            },
+            "title": "Pi Results",
+            "type": "array"
+          },
+          "random_counts": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Random Counts",
+            "type": "array"
+          },
+          "random_results": {
+            "description": "Same tests on the first simulated sequence",
+            "items": {
+              "$ref": "#/components/schemas/TestResultModel"
+            },
+            "title": "Random Results",
+            "type": "array"
+          },
+          "range_end": {
+            "title": "Range End",
+            "type": "integer"
+          },
+          "range_start": {
+            "title": "Range Start",
+            "type": "integer"
+          },
+          "simulations": {
+            "title": "Simulations",
+            "type": "integer"
+          },
+          "source": {
+            "$ref": "#/components/schemas/RandomSourceModel"
+          },
+          "statistics": {
+            "items": {
+              "$ref": "#/components/schemas/SimulatedStatisticModel"
+            },
+            "title": "Statistics",
+            "type": "array"
+          }
+        },
+        "required": [
+          "range_start",
+          "range_end",
+          "length",
+          "simulations",
+          "source",
+          "pi_results",
+          "random_results",
+          "pi_counts",
+          "random_counts",
+          "statistics",
+          "note",
+          "elapsed_ms"
+        ],
+        "title": "CompareResponse",
+        "type": "object"
+      },
+      "DatasetInfoResponse": {
+        "additionalProperties": false,
+        "description": "Provenance, size and conventions of the stored digits.",
+        "properties": {
+          "base": {
+            "title": "Base",
+            "type": "integer"
+          },
+          "checksums_verified_at_startup": {
+            "title": "Checksums Verified At Startup",
+            "type": "boolean"
+          },
+          "chunk_count": {
+            "title": "Chunk Count",
+            "type": "integer"
+          },
+          "chunk_size": {
+            "title": "Chunk Size",
+            "type": "integer"
+          },
+          "chunks": {
+            "items": {
+              "$ref": "#/components/schemas/ChunkInfo"
+            },
+            "title": "Chunks",
+            "type": "array"
+          },
+          "constant": {
+            "title": "Constant",
+            "type": "string"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "encoding": {
+            "title": "Encoding",
+            "type": "string"
+          },
+          "first_position": {
+            "title": "First Position",
+            "type": "integer"
+          },
+          "generator": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Generator",
+            "type": "object"
+          },
+          "has_partial_chunk": {
+            "description": "True when the final chunk holds fewer digits than chunk_size",
+            "title": "Has Partial Chunk",
+            "type": "boolean"
+          },
+          "indexing": {
+            "title": "Indexing",
+            "type": "string"
+          },
+          "integer_part": {
+            "description": "The digit before the decimal point, not stored",
+            "title": "Integer Part",
+            "type": "string"
+          },
+          "last_position": {
+            "title": "Last Position",
+            "type": "integer"
+          },
+          "limits": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "description": "Request limits enforced by this server",
+            "title": "Limits",
+            "type": "object"
+          },
+          "total_digits": {
+            "description": "Decimals available; also the largest valid position",
+            "title": "Total Digits",
+            "type": "integer"
+          },
+          "updated_at": {
+            "title": "Updated At",
+            "type": "string"
+          },
+          "verifications": {
+            "items": {
+              "$ref": "#/components/schemas/VerificationInfo"
+            },
+            "title": "Verifications",
+            "type": "array"
+          }
+        },
+        "required": [
+          "constant",
+          "base",
+          "integer_part",
+          "total_digits",
+          "first_position",
+          "last_position",
+          "chunk_size",
+          "chunk_count",
+          "has_partial_chunk",
+          "indexing",
+          "encoding",
+          "generator",
+          "verifications",
+          "checksums_verified_at_startup",
+          "created_at",
+          "updated_at",
+          "chunks",
+          "limits"
+        ],
+        "title": "DatasetInfoResponse",
+        "type": "object"
+      },
+      "DigitFrequencyModel": {
+        "additionalProperties": false,
+        "description": "Frequency of one digit.",
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "deviation": {
+            "description": "count - expected_count",
+            "title": "Deviation",
+            "type": "number"
+          },
+          "digit": {
+            "title": "Digit",
+            "type": "integer"
+          },
+          "expected_count": {
+            "title": "Expected Count",
+            "type": "number"
+          },
+          "relative_frequency": {
+            "title": "Relative Frequency",
+            "type": "number"
+          },
+          "standardized_deviation": {
+            "description": "Deviation in binomial standard deviations (a per-digit z-score)",
+            "title": "Standardized Deviation",
+            "type": "number"
+          }
+        },
+        "required": [
+          "digit",
+          "count",
+          "relative_frequency",
+          "expected_count",
+          "deviation",
+          "standardized_deviation"
+        ],
+        "title": "DigitFrequencyModel",
+        "type": "object"
+      },
+      "DigitRangeResponse": {
+        "additionalProperties": false,
+        "description": "A run of consecutive digits.",
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "digits": {
+            "description": "The digits as a string; its first character is at 'start'",
+            "title": "Digits",
+            "type": "string"
+          },
+          "end": {
+            "title": "End",
+            "type": "integer"
+          },
+          "has_next": {
+            "title": "Has Next",
+            "type": "boolean"
+          },
+          "has_previous": {
+            "title": "Has Previous",
+            "type": "boolean"
+          },
+          "start": {
+            "title": "Start",
+            "type": "integer"
+          },
+          "total_digits": {
+            "title": "Total Digits",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "count",
+          "digits",
+          "total_digits",
+          "has_previous",
+          "has_next"
+        ],
+        "title": "DigitRangeResponse",
+        "type": "object"
+      },
+      "DigitResponse": {
+        "additionalProperties": false,
+        "description": "A single digit.",
+        "properties": {
+          "digit": {
+            "maximum": 9.0,
+            "minimum": 0.0,
+            "title": "Digit",
+            "type": "integer"
+          },
+          "position": {
+            "title": "Position",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "position",
+          "digit"
+        ],
+        "title": "DigitResponse",
+        "type": "object"
+      },
+      "DigitRunModel": {
+        "additionalProperties": false,
+        "description": "A maximal block of one repeated digit.",
+        "properties": {
+          "digit": {
+            "title": "Digit",
+            "type": "integer"
+          },
+          "length": {
+            "title": "Length",
+            "type": "integer"
+          },
+          "position": {
+            "title": "Position",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "digit",
+          "length",
+          "position"
+        ],
+        "title": "DigitRunModel",
+        "type": "object"
+      },
+      "ErrorDetail": {
+        "additionalProperties": false,
+        "description": "Machine-readable error.",
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "details": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorDetail",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "description": "Envelope returned for every non-2xx response.",
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "ExperimentListResponse": {
+        "additionalProperties": false,
+        "description": "Recent experiments, newest first.",
+        "properties": {
+          "experiments": {
+            "items": {
+              "$ref": "#/components/schemas/ExperimentModel"
+            },
+            "title": "Experiments",
+            "type": "array"
+          }
+        },
+        "required": [
+          "experiments"
+        ],
+        "title": "ExperimentListResponse",
+        "type": "object"
+      },
+      "ExperimentModel": {
+        "additionalProperties": false,
+        "description": "One recorded experiment.",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "parameters": {
+            "additionalProperties": true,
+            "title": "Parameters",
+            "type": "object"
+          },
+          "summary": {
+            "additionalProperties": true,
+            "title": "Summary",
+            "type": "object"
+          },
+          "timestamp": {
+            "title": "Timestamp",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "timestamp",
+          "kind",
+          "title",
+          "parameters",
+          "summary"
+        ],
+        "title": "ExperimentModel",
+        "type": "object"
+      },
+      "FrequencyResponse": {
+        "additionalProperties": false,
+        "description": "Digit frequencies for a position range.",
+        "properties": {
+          "digits": {
+            "items": {
+              "$ref": "#/components/schemas/DigitFrequencyModel"
+            },
+            "title": "Digits",
+            "type": "array"
+          },
+          "expected_relative_frequency": {
+            "title": "Expected Relative Frequency",
+            "type": "number"
+          },
+          "least_frequent": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Least Frequent",
+            "type": "array"
+          },
+          "most_frequent": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Most Frequent",
+            "type": "array"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "range_end": {
+            "title": "Range End",
+            "type": "integer"
+          },
+          "range_start": {
+            "title": "Range Start",
+            "type": "integer"
+          },
+          "sample_size": {
+            "title": "Sample Size",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "range_start",
+          "range_end",
+          "sample_size",
+          "expected_relative_frequency",
+          "digits",
+          "most_frequent",
+          "least_frequent",
+          "note"
+        ],
+        "title": "FrequencyResponse",
+        "type": "object"
+      },
+      "GapSummary": {
+        "additionalProperties": false,
+        "description": "Distances between consecutive occurrences.",
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "expected_mean": {
+            "description": "Mean gap expected for independent uniform digits: 10**len(pattern)",
+            "title": "Expected Mean",
+            "type": "number"
+          },
+          "maximum": {
+            "title": "Maximum",
+            "type": "integer"
+          },
+          "mean": {
+            "title": "Mean",
+            "type": "number"
+          },
+          "median": {
+            "title": "Median",
+            "type": "number"
+          },
+          "minimum": {
+            "title": "Minimum",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "count",
+          "minimum",
+          "maximum",
+          "mean",
+          "median",
+          "expected_mean"
+        ],
+        "title": "GapSummary",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "additionalProperties": false,
+        "description": "Liveness and dataset availability.",
+        "properties": {
+          "api_version": {
+            "title": "Api Version",
+            "type": "string"
+          },
+          "dataset_available": {
+            "title": "Dataset Available",
+            "type": "boolean"
+          },
+          "dataset_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Error"
+          },
+          "engine_version": {
+            "title": "Engine Version",
+            "type": "string"
+          },
+          "status": {
+            "description": "'ok' when a dataset is loaded, otherwise 'degraded'",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "api_version",
+          "engine_version",
+          "dataset_available"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "NgramResponse": {
+        "additionalProperties": false,
+        "description": "N-gram frequency table for a position range.",
+        "properties": {
+          "block_test": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TestResultModel"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Chi-square test on non-overlapping blocks of the same range"
+          },
+          "expected_count": {
+            "title": "Expected Count",
+            "type": "number"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          },
+          "least_common": {
+            "items": {
+              "$ref": "#/components/schemas/NgramRow"
+            },
+            "title": "Least Common",
+            "type": "array"
+          },
+          "length": {
+            "title": "Length",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "matrix": {
+            "anyOf": [
+              {
+                "items": {
+                  "items": {
+                    "type": "integer"
+                  },
+                  "type": "array"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "For length 2 only: 10x10 counts, matrix[first][second]",
+            "title": "Matrix"
+          },
+          "missing": {
+            "description": "N-grams that never occur in the range",
+            "title": "Missing",
+            "type": "integer"
+          },
+          "most_common": {
+            "items": {
+              "$ref": "#/components/schemas/NgramRow"
+            },
+            "title": "Most Common",
+            "type": "array"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "observed_distinct": {
+            "title": "Observed Distinct",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "overlapping": {
+            "title": "Overlapping",
+            "type": "boolean"
+          },
+          "possible": {
+            "description": "Distinct n-grams that exist: 10**length",
+            "title": "Possible",
+            "type": "integer"
+          },
+          "range_end": {
+            "title": "Range End",
+            "type": "integer"
+          },
+          "range_start": {
+            "title": "Range Start",
+            "type": "integer"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/NgramRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "sort": {
+            "title": "Sort",
+            "type": "string"
+          },
+          "total_rows": {
+            "title": "Total Rows",
+            "type": "integer"
+          },
+          "windows": {
+            "description": "Number of n-grams counted",
+            "title": "Windows",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "length",
+          "overlapping",
+          "range_start",
+          "range_end",
+          "windows",
+          "possible",
+          "observed_distinct",
+          "missing",
+          "expected_count",
+          "sort",
+          "offset",
+          "limit",
+          "total_rows",
+          "has_more",
+          "rows",
+          "most_common",
+          "least_common",
+          "matrix",
+          "block_test",
+          "note"
+        ],
+        "title": "NgramResponse",
+        "type": "object"
+      },
+      "NgramRow": {
+        "additionalProperties": false,
+        "description": "Count of one n-gram.",
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "deviation": {
+            "title": "Deviation",
+            "type": "number"
+          },
+          "ngram": {
+            "title": "Ngram",
+            "type": "string"
+          },
+          "standardized_deviation": {
+            "title": "Standardized Deviation",
+            "type": "number"
+          }
+        },
+        "required": [
+          "ngram",
+          "count",
+          "deviation",
+          "standardized_deviation"
+        ],
+        "title": "NgramRow",
+        "type": "object"
+      },
+      "Observation": {
+        "additionalProperties": false,
+        "description": "One computed fact about the analysed range.",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "descriptive",
+              "test"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "length": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Length of the sequence at position",
+            "title": "Length"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Position this refers to, if any",
+            "title": "Position"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "title",
+          "value",
+          "detail",
+          "kind"
+        ],
+        "title": "Observation",
+        "type": "object"
+      },
+      "ObservationsResponse": {
+        "additionalProperties": false,
+        "description": "Computed observations for the dashboard.",
+        "properties": {
+          "caveat": {
+            "title": "Caveat",
+            "type": "string"
+          },
+          "observations": {
+            "items": {
+              "$ref": "#/components/schemas/Observation"
+            },
+            "title": "Observations",
+            "type": "array"
+          },
+          "range_end": {
+            "title": "Range End",
+            "type": "integer"
+          },
+          "range_start": {
+            "title": "Range Start",
+            "type": "integer"
+          },
+          "sample_size": {
+            "title": "Sample Size",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "range_start",
+          "range_end",
+          "sample_size",
+          "observations",
+          "caveat"
+        ],
+        "title": "ObservationsResponse",
+        "type": "object"
+      },
+      "RandomSourceModel": {
+        "additionalProperties": false,
+        "description": "Everything needed to regenerate the simulated sequences.",
+        "properties": {
+          "bit_generator": {
+            "title": "Bit Generator",
+            "type": "string"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "numpy_version": {
+            "title": "Numpy Version",
+            "type": "string"
+          },
+          "seed": {
+            "title": "Seed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "seed",
+          "bit_generator",
+          "numpy_version",
+          "method"
+        ],
+        "title": "RandomSourceModel",
+        "type": "object"
+      },
+      "RunLengthRowModel": {
+        "additionalProperties": false,
+        "description": "Observed and expected number of runs of one length.",
+        "properties": {
+          "expected": {
+            "title": "Expected",
+            "type": "number"
+          },
+          "length": {
+            "title": "Length",
+            "type": "integer"
+          },
+          "observed": {
+            "title": "Observed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "length",
+          "observed",
+          "expected"
+        ],
+        "title": "RunLengthRowModel",
+        "type": "object"
+      },
+      "RunsResponse": {
+        "additionalProperties": false,
+        "description": "Runs of repeated digits.",
+        "properties": {
+          "distribution": {
+            "items": {
+              "$ref": "#/components/schemas/RunLengthRowModel"
+            },
+            "title": "Distribution",
+            "type": "array"
+          },
+          "longest": {
+            "items": {
+              "$ref": "#/components/schemas/DigitRunModel"
+            },
+            "title": "Longest",
+            "type": "array"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "range_end": {
+            "title": "Range End",
+            "type": "integer"
+          },
+          "range_start": {
+            "title": "Range Start",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "range_start",
+          "range_end",
+          "longest",
+          "distribution",
+          "note"
+        ],
+        "title": "RunsResponse",
+        "type": "object"
+      },
+      "SearchMatch": {
+        "additionalProperties": false,
+        "description": "One occurrence.",
+        "properties": {
+          "gap_from_previous": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Distance from the previous occurrence's position; null for the first",
+            "title": "Gap From Previous"
+          },
+          "index": {
+            "description": "0-based rank of this occurrence among all matches",
+            "title": "Index",
+            "type": "integer"
+          },
+          "position": {
+            "description": "1-based position of the first digit of the match",
+            "title": "Position",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "index",
+          "position",
+          "gap_from_previous"
+        ],
+        "title": "SearchMatch",
+        "type": "object"
+      },
+      "SearchRequest": {
+        "additionalProperties": false,
+        "description": "Search for a digit sequence. Overlapping occurrences are all counted.",
+        "properties": {
+          "end": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Last position (inclusive); defaults to the last digit",
+            "title": "End"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Matches per page",
+            "title": "Limit"
+          },
+          "offset": {
+            "default": 0,
+            "description": "Number of matches to skip",
+            "minimum": 0.0,
+            "title": "Offset",
+            "type": "integer"
+          },
+          "pattern": {
+            "description": "Digits to find, e.g. '314159'",
+            "examples": [
+              "314159"
+            ],
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "title": "Pattern",
+            "type": "string"
+          },
+          "start": {
+            "default": 1,
+            "description": "First position of the search range",
+            "minimum": 1.0,
+            "title": "Start",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "pattern"
+        ],
+        "title": "SearchRequest",
+        "type": "object"
+      },
+      "SearchResponse": {
+        "additionalProperties": false,
+        "description": "A page of search results plus totals for the whole range.",
+        "properties": {
+          "cached": {
+            "description": "True when this result was served from the search cache",
+            "title": "Cached",
+            "type": "boolean"
+          },
+          "elapsed_ms": {
+            "description": "Time spent scanning the digits for this pattern",
+            "title": "Elapsed Ms",
+            "type": "number"
+          },
+          "expected_count": {
+            "description": "Occurrences expected for independent uniform digits; a reference, not a test",
+            "title": "Expected Count",
+            "type": "number"
+          },
+          "first_position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Position"
+          },
+          "gaps": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GapSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          },
+          "last_position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Last occurrence; null if none or if stored positions were truncated",
+            "title": "Last Position"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "matches": {
+            "items": {
+              "$ref": "#/components/schemas/SearchMatch"
+            },
+            "title": "Matches",
+            "type": "array"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "pageable_count": {
+            "description": "Number of matches reachable through paging",
+            "title": "Pageable Count",
+            "type": "integer"
+          },
+          "pattern": {
+            "title": "Pattern",
+            "type": "string"
+          },
+          "pattern_length": {
+            "title": "Pattern Length",
+            "type": "integer"
+          },
+          "positions_truncated": {
+            "description": "True when there are more matches than the server keeps for paging",
+            "title": "Positions Truncated",
+            "type": "boolean"
+          },
+          "range_end": {
+            "title": "Range End",
+            "type": "integer"
+          },
+          "range_start": {
+            "title": "Range Start",
+            "type": "integer"
+          },
+          "total_count": {
+            "description": "Occurrences in the whole range, overlaps included",
+            "title": "Total Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "pattern",
+          "pattern_length",
+          "range_start",
+          "range_end",
+          "total_count",
+          "expected_count",
+          "first_position",
+          "last_position",
+          "offset",
+          "limit",
+          "matches",
+          "has_more",
+          "positions_truncated",
+          "pageable_count",
+          "gaps",
+          "elapsed_ms",
+          "cached"
+        ],
+        "title": "SearchResponse",
+        "type": "object"
+      },
+      "SimulatedStatisticModel": {
+        "additionalProperties": false,
+        "description": "One statistic of pi placed among the simulated sequences.",
+        "properties": {
+          "fraction_at_or_below": {
+            "description": "Share of simulations with a statistic <= pi's; an empirical percentile",
+            "title": "Fraction At Or Below",
+            "type": "number"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "observed": {
+            "title": "Observed",
+            "type": "number"
+          },
+          "simulated": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Simulated",
+            "type": "array"
+          },
+          "simulated_max": {
+            "title": "Simulated Max",
+            "type": "number"
+          },
+          "simulated_mean": {
+            "title": "Simulated Mean",
+            "type": "number"
+          },
+          "simulated_min": {
+            "title": "Simulated Min",
+            "type": "number"
+          },
+          "simulated_std": {
+            "title": "Simulated Std",
+            "type": "number"
+          },
+          "statistic_name": {
+            "title": "Statistic Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "name",
+          "statistic_name",
+          "observed",
+          "simulated",
+          "simulated_mean",
+          "simulated_std",
+          "simulated_min",
+          "simulated_max",
+          "fraction_at_or_below"
+        ],
+        "title": "SimulatedStatisticModel",
+        "type": "object"
+      },
+      "StatisticsRequest": {
+        "additionalProperties": false,
+        "description": "Run statistical tests on a range of digits.",
+        "properties": {
+          "correction": {
+            "default": "holm",
+            "enum": [
+              "holm",
+              "bonferroni"
+            ],
+            "title": "Correction",
+            "type": "string"
+          },
+          "count": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Defaults to all digits from start",
+            "title": "Count"
+          },
+          "max_lag": {
+            "default": 20,
+            "description": "Largest lag for autocorrelation",
+            "minimum": 1.0,
+            "title": "Max Lag",
+            "type": "integer"
+          },
+          "ngram_length": {
+            "default": 2,
+            "description": "Block length for the n-gram test",
+            "minimum": 1.0,
+            "title": "Ngram Length",
+            "type": "integer"
+          },
+          "runs_dichotomy": {
+            "default": "high_low",
+            "enum": [
+              "high_low",
+              "parity"
+            ],
+            "title": "Runs Dichotomy",
+            "type": "string"
+          },
+          "start": {
+            "default": 1,
+            "minimum": 1.0,
+            "title": "Start",
+            "type": "integer"
+          },
+          "tests": {
+            "items": {
+              "enum": [
+                "chi_square",
+                "shannon_entropy",
+                "autocorrelation",
+                "runs",
+                "ngram_blocks"
+              ],
+              "type": "string"
+            },
+            "minItems": 1,
+            "title": "Tests",
+            "type": "array"
+          }
+        },
+        "title": "StatisticsRequest",
+        "type": "object"
+      },
+      "StatisticsResponse": {
+        "additionalProperties": false,
+        "description": "Results of a battery of tests.",
+        "properties": {
+          "correction": {
+            "title": "Correction",
+            "type": "string"
+          },
+          "elapsed_ms": {
+            "title": "Elapsed Ms",
+            "type": "number"
+          },
+          "family_size": {
+            "description": "Number of p-values the correction was applied to",
+            "title": "Family Size",
+            "type": "integer"
+          },
+          "multiple_testing_note": {
+            "title": "Multiple Testing Note",
+            "type": "string"
+          },
+          "range_end": {
+            "title": "Range End",
+            "type": "integer"
+          },
+          "range_start": {
+            "title": "Range Start",
+            "type": "integer"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/TestResultModel"
+            },
+            "title": "Results",
+            "type": "array"
+          },
+          "sample_size": {
+            "title": "Sample Size",
+            "type": "integer"
+          },
+          "scope_note": {
+            "title": "Scope Note",
+            "type": "string"
+          }
+        },
+        "required": [
+          "range_start",
+          "range_end",
+          "sample_size",
+          "results",
+          "correction",
+          "family_size",
+          "multiple_testing_note",
+          "scope_note",
+          "elapsed_ms"
+        ],
+        "title": "StatisticsResponse",
+        "type": "object"
+      },
+      "TestResultModel": {
+        "additionalProperties": false,
+        "description": "Outcome of one statistical procedure.",
+        "properties": {
+          "adjusted_p_value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "p-value after multiple-testing correction across this request",
+            "title": "Adjusted P Value"
+          },
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Assumptions",
+            "type": "array"
+          },
+          "degrees_of_freedom": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Degrees Of Freedom"
+          },
+          "details": {
+            "additionalProperties": true,
+            "title": "Details",
+            "type": "object"
+          },
+          "expected_description": {
+            "title": "Expected Description",
+            "type": "string"
+          },
+          "expected_statistic": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Statistic"
+          },
+          "interpretation": {
+            "title": "Interpretation",
+            "type": "string"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "null_hypothesis": {
+            "title": "Null Hypothesis",
+            "type": "string"
+          },
+          "p_value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Probability, under the null model, of a statistic at least this extreme. Not the probability that any hypothesis is true. Null for descriptive measures.",
+            "title": "P Value"
+          },
+          "sample_size": {
+            "title": "Sample Size",
+            "type": "integer"
+          },
+          "statistic": {
+            "title": "Statistic",
+            "type": "number"
+          },
+          "statistic_name": {
+            "title": "Statistic Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "name",
+          "statistic_name",
+          "statistic",
+          "expected_statistic",
+          "expected_description",
+          "p_value",
+          "degrees_of_freedom",
+          "sample_size",
+          "null_hypothesis",
+          "interpretation",
+          "assumptions",
+          "limitations",
+          "details"
+        ],
+        "title": "TestResultModel",
+        "type": "object"
+      },
+      "VerificationInfo": {
+        "additionalProperties": false,
+        "description": "An independent check that was run on the digits before they were stored.",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "digits_compared": {
+            "title": "Digits Compared",
+            "type": "integer"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          }
+        },
+        "required": [
+          "method",
+          "digits_compared",
+          "detail"
+        ],
+        "title": "VerificationInfo",
+        "type": "object"
+      },
+      "WindowResponse": {
+        "additionalProperties": false,
+        "description": "Digit concentration across consecutive windows.",
+        "properties": {
+          "approximation_reliable": {
+            "description": "False when windows hold fewer than 50 digits and z-scores are unreliable",
+            "title": "Approximation Reliable",
+            "type": "boolean"
+          },
+          "cells": {
+            "title": "Cells",
+            "type": "integer"
+          },
+          "cells_beyond_three": {
+            "title": "Cells Beyond Three",
+            "type": "integer"
+          },
+          "cells_beyond_two": {
+            "title": "Cells Beyond Two",
+            "type": "integer"
+          },
+          "expected_cells_beyond_three": {
+            "title": "Expected Cells Beyond Three",
+            "type": "number"
+          },
+          "expected_cells_beyond_two": {
+            "title": "Expected Cells Beyond Two",
+            "type": "number"
+          },
+          "max_abs_z": {
+            "title": "Max Abs Z",
+            "type": "number"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          },
+          "range_end": {
+            "title": "Range End",
+            "type": "integer"
+          },
+          "range_start": {
+            "title": "Range Start",
+            "type": "integer"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/WindowRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "window_count": {
+            "title": "Window Count",
+            "type": "integer"
+          },
+          "window_size": {
+            "title": "Window Size",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "range_start",
+          "range_end",
+          "window_size",
+          "window_count",
+          "rows",
+          "cells",
+          "cells_beyond_two",
+          "expected_cells_beyond_two",
+          "cells_beyond_three",
+          "expected_cells_beyond_three",
+          "max_abs_z",
+          "approximation_reliable",
+          "note"
+        ],
+        "title": "WindowResponse",
+        "type": "object"
+      },
+      "WindowRow": {
+        "additionalProperties": false,
+        "description": "Digit counts in one window.",
+        "properties": {
+          "counts": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "array"
+          },
+          "end": {
+            "title": "End",
+            "type": "integer"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "standardized": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Standardized",
+            "type": "array"
+          },
+          "start": {
+            "title": "Start",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "index",
+          "start",
+          "end",
+          "counts",
+          "standardized"
+        ],
+        "title": "WindowRow",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "\nExplore, search and analyse the decimal digits of pi.\n\n**Indexing.** Position 1 is the first digit after the decimal point (the `1` in\n`3.14159...`). The integer digit `3` is not part of the dataset.\n\n**Scientific scope.** Results describe a finite prefix of pi. The normality of pi has\nnot been proven, and passing statistical tests does not establish it.\n",
+    "title": "PiScope API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/analysis/compare": {
+      "post": {
+        "description": "Compare a range of pi with reproducible simulated random sequences.",
+        "operationId": "compare_api_v1_analysis_compare_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompareRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompareResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Compare",
+        "tags": [
+          "analysis"
+        ]
+      }
+    },
+    "/api/v1/analysis/frequency": {
+      "get": {
+        "description": "Count each digit 0-9 in a range and compare with a uniform model.",
+        "operationId": "frequency_api_v1_analysis_frequency_get",
+        "parameters": [
+          {
+            "description": "First position to analyse (1-based)",
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "description": "First position to analyse (1-based)",
+              "minimum": 1,
+              "title": "Start",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Digits to analyse; defaults to all from start",
+            "in": "query",
+            "name": "count",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Digits to analyse; defaults to all from start",
+              "title": "Count"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FrequencyResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Frequency",
+        "tags": [
+          "analysis"
+        ]
+      }
+    },
+    "/api/v1/analysis/ngrams": {
+      "get": {
+        "description": "Count every n-gram of length ``n`` in a range and return one page of the table.",
+        "operationId": "ngrams_api_v1_analysis_ngrams_get",
+        "parameters": [
+          {
+            "description": "N-gram length",
+            "in": "query",
+            "name": "n",
+            "required": false,
+            "schema": {
+              "default": 2,
+              "description": "N-gram length",
+              "minimum": 1,
+              "title": "N",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "First position to analyse (1-based)",
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "description": "First position to analyse (1-based)",
+              "minimum": 1,
+              "title": "Start",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Digits to analyse; defaults to all from start",
+            "in": "query",
+            "name": "count",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Digits to analyse; defaults to all from start",
+              "title": "Count"
+            }
+          },
+          {
+            "description": "Count a window at every position (true) or disjoint blocks",
+            "in": "query",
+            "name": "overlapping",
+            "required": false,
+            "schema": {
+              "default": true,
+              "description": "Count a window at every position (true) or disjoint blocks",
+              "title": "Overlapping",
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Row order",
+            "in": "query",
+            "name": "sort",
+            "required": false,
+            "schema": {
+              "default": "count_desc",
+              "description": "Row order",
+              "enum": [
+                "count_desc",
+                "count_asc",
+                "ngram"
+              ],
+              "title": "Sort",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NgramResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Ngrams",
+        "tags": [
+          "analysis"
+        ]
+      }
+    },
+    "/api/v1/analysis/observations": {
+      "get": {
+        "description": "Compute a short list of facts about a range for the overview dashboard.\n\nWhen ``count`` is omitted the range is the whole dataset, capped at the in-memory\nanalysis limit; the response states the range actually analysed.",
+        "operationId": "observations_api_v1_analysis_observations_get",
+        "parameters": [
+          {
+            "description": "First position to analyse (1-based)",
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "description": "First position to analyse (1-based)",
+              "minimum": 1,
+              "title": "Start",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Digits to analyse; defaults to all from start",
+            "in": "query",
+            "name": "count",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Digits to analyse; defaults to all from start",
+              "title": "Count"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObservationsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Observations",
+        "tags": [
+          "analysis"
+        ]
+      }
+    },
+    "/api/v1/analysis/runs": {
+      "get": {
+        "description": "List the longest runs of a repeated digit and the distribution of run lengths.",
+        "operationId": "runs_api_v1_analysis_runs_get",
+        "parameters": [
+          {
+            "description": "First position to analyse (1-based)",
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "description": "First position to analyse (1-based)",
+              "minimum": 1,
+              "title": "Start",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Digits to analyse; defaults to all from start",
+            "in": "query",
+            "name": "count",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Digits to analyse; defaults to all from start",
+              "title": "Count"
+            }
+          },
+          {
+            "description": "How many longest runs to list",
+            "in": "query",
+            "name": "top",
+            "required": false,
+            "schema": {
+              "default": 10,
+              "description": "How many longest runs to list",
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Top",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Runs",
+        "tags": [
+          "patterns"
+        ]
+      }
+    },
+    "/api/v1/analysis/statistics": {
+      "post": {
+        "description": "Run statistical tests on a range and correct p-values for the tests requested.",
+        "operationId": "statistics_api_v1_analysis_statistics_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatisticsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatisticsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Statistics",
+        "tags": [
+          "analysis"
+        ]
+      }
+    },
+    "/api/v1/analysis/windows": {
+      "get": {
+        "description": "Count digits in consecutive windows to show where digits concentrate.",
+        "operationId": "windows_api_v1_analysis_windows_get",
+        "parameters": [
+          {
+            "description": "First position to analyse (1-based)",
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "description": "First position to analyse (1-based)",
+              "minimum": 1,
+              "title": "Start",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Digits to analyse; defaults to all from start",
+            "in": "query",
+            "name": "count",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Digits to analyse; defaults to all from start",
+              "title": "Count"
+            }
+          },
+          {
+            "description": "Number of equal windows",
+            "in": "query",
+            "name": "windows",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "description": "Number of equal windows",
+              "minimum": 1,
+              "title": "Windows",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WindowResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Windows",
+        "tags": [
+          "patterns"
+        ]
+      }
+    },
+    "/api/v1/dataset/info": {
+      "get": {
+        "description": "Describe the stored digits: size, provenance, verification and conventions.",
+        "operationId": "dataset_info_api_v1_dataset_info_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetInfoResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Dataset Info",
+        "tags": [
+          "dataset"
+        ]
+      }
+    },
+    "/api/v1/digits": {
+      "get": {
+        "description": "Return the digit at one position.",
+        "operationId": "get_digit_api_v1_digits_get",
+        "parameters": [
+          {
+            "description": "1-based position; 1 is the first digit after the point",
+            "in": "query",
+            "name": "position",
+            "required": true,
+            "schema": {
+              "description": "1-based position; 1 is the first digit after the point",
+              "minimum": 1,
+              "title": "Position",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DigitResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Get Digit",
+        "tags": [
+          "digits"
+        ]
+      }
+    },
+    "/api/v1/digits/range": {
+      "get": {
+        "description": "Return ``count`` consecutive digits beginning at ``start``.",
+        "operationId": "get_digit_range_api_v1_digits_range_get",
+        "parameters": [
+          {
+            "description": "1-based position of the first digit",
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "description": "1-based position of the first digit",
+              "minimum": 1,
+              "title": "Start",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Number of digits to return",
+            "in": "query",
+            "name": "count",
+            "required": false,
+            "schema": {
+              "default": 1000,
+              "description": "Number of digits to return",
+              "minimum": 1,
+              "title": "Count",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DigitRangeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Get Digit Range",
+        "tags": [
+          "digits"
+        ]
+      }
+    },
+    "/api/v1/experiments": {
+      "delete": {
+        "description": "Delete the experiment log.",
+        "operationId": "clear_experiments_api_v1_experiments_delete",
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Clear Experiments",
+        "tags": [
+          "experiments"
+        ]
+      },
+      "get": {
+        "description": "Return recent experiments, newest first.",
+        "operationId": "list_experiments_api_v1_experiments_get",
+        "parameters": [
+          {
+            "description": "Maximum experiments to return",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "description": "Maximum experiments to return",
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Filter by experiment kind",
+            "in": "query",
+            "name": "kind",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by experiment kind",
+              "title": "Kind"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExperimentListResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "List Experiments",
+        "tags": [
+          "experiments"
+        ]
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "description": "Report whether the API is up and a dataset is loaded.",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "system"
+        ]
+      }
+    },
+    "/api/v1/search": {
+      "post": {
+        "description": "Find every occurrence of a digit sequence and return one page of positions.\n\nPosition 1 is the first digit after the decimal point. Overlapping occurrences are\ncounted separately. Only matches lying entirely inside ``start..end`` are reported.",
+        "operationId": "search_api_v1_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Search",
+        "tags": [
+          "search"
+        ]
+      }
+    }
+  }
+}

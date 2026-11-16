@@ -1,0 +1,25 @@
+{
+  "pattern": "314159",
+  "pattern_length": 6,
+  "range_start": 1,
+  "range_end": 1000000,
+  "total_count": 1,
+  "expected_count": 0.999995,
+  "first_position": 176451,
+  "last_position": 176451,
+  "offset": 0,
+  "limit": 50,
+  "matches": [
+    {
+      "index": 0,
+      "position": 176451,
+      "gap_from_previous": null
+    }
+  ],
+  "has_more": false,
+  "positions_truncated": false,
+  "pageable_count": 1,
+  "gaps": null,
+  "elapsed_ms": 0.8941249980125576,
+  "cached": true
+}

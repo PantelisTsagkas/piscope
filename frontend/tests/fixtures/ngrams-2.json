@@ -1,0 +1,295 @@
+{
+  "length": 2,
+  "overlapping": true,
+  "range_start": 1,
+  "range_end": 1000000,
+  "windows": 999999,
+  "possible": 100,
+  "observed_distinct": 100,
+  "missing": 0,
+  "expected_count": 9999.99,
+  "sort": "count_desc",
+  "offset": 0,
+  "limit": 10,
+  "total_rows": 100,
+  "has_more": true,
+  "rows": [
+    {
+      "ngram": "94",
+      "count": 10239,
+      "deviation": 239.01000000000022,
+      "standardized_deviation": 2.402142083322387
+    },
+    {
+      "ngram": "55",
+      "count": 10232,
+      "deviation": 232.01000000000022,
+      "standardized_deviation": 2.3317894010778923
+    },
+    {
+      "ngram": "27",
+      "count": 10224,
+      "deviation": 224.01000000000022,
+      "standardized_deviation": 2.2513863356556127
+    },
+    {
+      "ngram": "54",
+      "count": 10194,
+      "deviation": 194.01000000000022,
+      "standardized_deviation": 1.9498748403220636
+    },
+    {
+      "ngram": "46",
+      "count": 10193,
+      "deviation": 193.01000000000022,
+      "standardized_deviation": 1.9398244571442786
+    },
+    {
+      "ngram": "35",
+      "count": 10188,
+      "deviation": 188.01000000000022,
+      "standardized_deviation": 1.889572541255354
+    },
+    {
+      "ngram": "08",
+      "count": 10173,
+      "deviation": 173.01000000000022,
+      "standardized_deviation": 1.7388167935885792
+    },
+    {
+      "ngram": "19",
+      "count": 10148,
+      "deviation": 148.01000000000022,
+      "standardized_deviation": 1.487557214143955
+    },
+    {
+      "ngram": "60",
+      "count": 10147,
+      "deviation": 147.01000000000022,
+      "standardized_deviation": 1.47750683096617
+    },
+    {
+      "ngram": "76",
+      "count": 10112,
+      "deviation": 112.01000000000022,
+      "standardized_deviation": 1.1257434197436964
+    }
+  ],
+  "most_common": [
+    {
+      "ngram": "94",
+      "count": 10239,
+      "deviation": 239.01000000000022,
+      "standardized_deviation": 2.402142083322387
+    },
+    {
+      "ngram": "55",
+      "count": 10232,
+      "deviation": 232.01000000000022,
+      "standardized_deviation": 2.3317894010778923
+    },
+    {
+      "ngram": "27",
+      "count": 10224,
+      "deviation": 224.01000000000022,
+      "standardized_deviation": 2.2513863356556127
+    },
+    {
+      "ngram": "54",
+      "count": 10194,
+      "deviation": 194.01000000000022,
+      "standardized_deviation": 1.9498748403220636
+    },
+    {
+      "ngram": "46",
+      "count": 10193,
+      "deviation": 193.01000000000022,
+      "standardized_deviation": 1.9398244571442786
+    }
+  ],
+  "least_common": [
+    {
+      "ngram": "12",
+      "count": 9721,
+      "deviation": -278.9899999999998,
+      "standardized_deviation": -2.8039564027702255
+    },
+    {
+      "ngram": "51",
+      "count": 9791,
+      "deviation": -208.98999999999978,
+      "standardized_deviation": -2.100429580325278
+    },
+    {
+      "ngram": "77",
+      "count": 9801,
+      "deviation": -198.98999999999978,
+      "standardized_deviation": -1.9999257485474284
+    },
+    {
+      "ngram": "66",
+      "count": 9819,
+      "deviation": -180.98999999999978,
+      "standardized_deviation": -1.819018851347299
+    },
+    {
+      "ngram": "96",
+      "count": 9851,
+      "deviation": -148.98999999999978,
+      "standardized_deviation": -1.49740658965818
+    }
+  ],
+  "matrix": [
+    [
+      9938,
+      9891,
+      10048,
+      10038,
+      9948,
+      10042,
+      9896,
+      9951,
+      10173,
+      10034
+    ],
+    [
+      10006,
+      10064,
+      9721,
+      10012,
+      9875,
+      9992,
+      9934,
+      9944,
+      10061,
+      10148
+    ],
+    [
+      9905,
+      10110,
+      10062,
+      9951,
+      10060,
+      9989,
+      9858,
+      10224,
+      9955,
+      9912
+    ],
+    [
+      10051,
+      9938,
+      10055,
+      10026,
+      9960,
+      10188,
+      9925,
+      10098,
+      9951,
+      10037
+    ],
+    [
+      10017,
+      10010,
+      9980,
+      10009,
+      9958,
+      10035,
+      10193,
+      10043,
+      9914,
+      10071
+    ],
+    [
+      10066,
+      9791,
+      10055,
+      10050,
+      10194,
+      10232,
+      10010,
+      10045,
+      9918,
+      9998
+    ],
+    [
+      10147,
+      9896,
+      10085,
+      9974,
+      10014,
+      9981,
+      9819,
+      9867,
+      9880,
+      9885
+    ],
+    [
+      9886,
+      10095,
+      9962,
+      10069,
+      10022,
+      9963,
+      10112,
+      9801,
+      9991,
+      9899
+    ],
+    [
+      10029,
+      9954,
+      10073,
+      10047,
+      9960,
+      9922,
+      9950,
+      9924,
+      10088,
+      10038
+    ],
+    [
+      9914,
+      10008,
+      9985,
+      10053,
+      10239,
+      10015,
+      9851,
+      9903,
+      10054,
+      10084
+    ]
+  ],
+  "block_test": {
+    "key": "ngram_blocks",
+    "name": "N-gram distribution (2-digit blocks)",
+    "statistic_name": "chi-square",
+    "statistic": 105.8272,
+    "expected_statistic": 99,
+    "expected_description": "mean of the chi-square distribution (its degrees of freedom)",
+    "p_value": 0.30097519319817156,
+    "adjusted_p_value": null,
+    "degrees_of_freedom": 99,
+    "sample_size": 500000,
+    "null_hypothesis": "all 100 possible 2-digit blocks are equally likely",
+    "interpretation": "If the digits behaved like independent digits, each equally likely to be 0-9, a result at least this extreme would be expected in about 30% of samples. The data are compatible with the model on this measure.",
+    "assumptions": [
+      "The sequence is cut into 500,000 non-overlapping blocks of 2 digits, which are independent under the null model.",
+      "Expected count per block value is at least 5."
+    ],
+    "limitations": [
+      "Describes only the finite range analysed. It says nothing about digits outside it and cannot prove or disprove that pi is normal.",
+      "A large p-value is an absence of evidence against the model, not evidence that the digits are random."
+    ],
+    "details": {
+      "cells": 100,
+      "expected_count_per_cell": 5000,
+      "approximation_reliable": true,
+      "block_length": 2,
+      "blocks": 500000,
+      "digits_used": 1000000
+    }
+  },
+  "note": "Counts use overlapping windows (one per position). Neighbouring windows share digits, so these counts are not independent and the standardized deviations are approximate, especially for self-overlapping sequences such as 11 or 121. The attached chi-square test therefore uses non-overlapping blocks instead."
+}
