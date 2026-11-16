@@ -18,7 +18,10 @@ test("navigation reaches every page at this screen size", async ({ page, isMobil
       await page.getByRole("dialog").getByRole("link", { name: target.link }).click();
       await expect(page.getByRole("dialog")).toBeHidden();
     } else {
-      await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: target.link }).click();
+      await page
+        .getByRole("navigation", { name: "Main" })
+        .getByRole("link", { name: target.link })
+        .click();
     }
     await expect(page.getByRole("heading", { level: 1, name: target.heading })).toBeVisible();
     await expect(page).toHaveURL(new RegExp(`${target.path.replace("/", "\\/")}$`));
@@ -53,6 +56,12 @@ test("the active page is marked for assistive technology", async ({ page, isMobi
   test.skip(isMobile, "covered by the desktop project; the menu is closed on mobile");
   await page.goto("/search");
   const nav = page.getByRole("navigation", { name: "Main" });
-  await expect(nav.getByRole("link", { name: "Sequence Search" })).toHaveAttribute("aria-current", "page");
-  await expect(nav.getByRole("link", { name: "Overview" })).not.toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "Sequence Search" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+  await expect(nav.getByRole("link", { name: "Overview" })).not.toHaveAttribute(
+    "aria-current",
+    "page",
+  );
 });

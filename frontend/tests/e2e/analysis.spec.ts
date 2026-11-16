@@ -23,9 +23,9 @@ test.describe("frequency analysis", () => {
 
     await page.getByLabel("Length (n)").selectOption("3");
     await expect(page.getByText(/of 1,000$/)).toBeVisible();
-    await expect(page.getByTestId("ngram-table").locator("tbody tr").first().locator("td").nth(1)).toHaveText(
-      /^\d{3}$/,
-    );
+    await expect(
+      page.getByTestId("ngram-table").locator("tbody tr").first().locator("td").nth(1),
+    ).toHaveText(/^\d{3}$/);
     await expect(page.getByTestId("longest-runs").locator("tbody tr")).toHaveCount(10);
   });
 });
@@ -38,14 +38,22 @@ test.describe("statistical lab", () => {
 
     const results = page.getByTestId("battery-results");
     await expect(results).toBeVisible();
-    for (const key of ["chi_square", "shannon_entropy", "autocorrelation", "runs", "ngram_blocks"]) {
+    for (const key of [
+      "chi_square",
+      "shannon_entropy",
+      "autocorrelation",
+      "runs",
+      "ngram_blocks",
+    ]) {
       const card = results.getByTestId(`test-result-${key}`);
       await expect(card).toBeVisible();
       await expect(card.getByTestId("test-interpretation")).not.toBeEmpty();
       await expect(card.getByText("Sample size", { exact: true })).toBeVisible();
     }
     // Entropy is a description, so it must not be given a p-value.
-    await expect(results.getByTestId("test-result-shannon_entropy")).toContainText("descriptive measure");
+    await expect(results.getByTestId("test-result-shannon_entropy")).toContainText(
+      "descriptive measure",
+    );
     await expect(results.getByText(/passing statistical tests does not establish/i)).toBeVisible();
     await expect(chartCanvas(results, /autocorrelation at each lag/i)).toBeVisible();
   });
@@ -95,5 +103,7 @@ test("about page reports provenance from the dataset", async ({ page }) => {
   await expect(page.getByText(/has not been proven/)).toBeVisible();
   await expect(page.getByTestId("about-provenance")).toContainText("chudnovsky-binary-splitting");
   await expect(page.getByText("gauss-legendre", { exact: true })).toBeVisible();
-  await expect(page.getByTestId("about-indexing")).toContainText("position 1 is the first digit after the decimal point");
+  await expect(page.getByTestId("about-indexing")).toContainText(
+    "position 1 is the first digit after the decimal point",
+  );
 });

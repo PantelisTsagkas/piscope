@@ -10,7 +10,8 @@ from pathlib import Path
 
 from piscope_api.main import create_app
 
-DEFAULT_TARGET = Path(__file__).resolve().parent.parent / "frontend" / "lib" / "api" / "openapi.json"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_TARGET = REPO_ROOT / "frontend" / "lib" / "api" / "openapi.json"
 
 
 def main() -> None:

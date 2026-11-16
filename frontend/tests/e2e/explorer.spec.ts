@@ -18,7 +18,9 @@ test.describe("digit explorer", () => {
     await expect(page.getByText("Positions 1 to 1,000")).toBeVisible();
     await page.getByRole("button", { name: "Next" }).click();
     await expect(page.getByText("Positions 1,001 to 2,000")).toBeVisible();
-    const shown = (await page.getByTestId("digit-grid").locator("[data-pos]").allTextContents()).join("");
+    const shown = (
+      await page.getByTestId("digit-grid").locator("[data-pos]").allTextContents()
+    ).join("");
     expect(shown).toBe(REFERENCE_DIGITS.slice(1000, 2000));
 
     await page.getByRole("button", { name: "Previous" }).click();
@@ -28,7 +30,9 @@ test.describe("digit explorer", () => {
     await page.getByLabel("Digits to show").fill("50");
     await page.getByRole("button", { name: "Show digits" }).click();
     await expect(page.getByText("Positions 9,951 to 10,000")).toBeVisible();
-    const tail = (await page.getByTestId("digit-grid").locator("[data-pos]").allTextContents()).join("");
+    const tail = (
+      await page.getByTestId("digit-grid").locator("[data-pos]").allTextContents()
+    ).join("");
     expect(tail).toBe(REFERENCE_DIGITS.slice(9950, 10_000));
   });
 

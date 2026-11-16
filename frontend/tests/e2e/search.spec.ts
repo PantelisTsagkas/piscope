@@ -33,8 +33,12 @@ test.describe("sequence search", () => {
     await searchReferenceRange(page, "123");
     const rows = page.getByTestId("search-matches").locator("tbody tr");
     await expect(rows.nth(0).locator("td").nth(2)).toHaveText("first");
-    await expect(rows.nth(1).locator("td").nth(2)).toHaveText(withSeparators(expected[1]! - expected[0]!));
-    await expect(rows.nth(2).locator("td").nth(2)).toHaveText(withSeparators(expected[2]! - expected[1]!));
+    await expect(rows.nth(1).locator("td").nth(2)).toHaveText(
+      withSeparators(expected[1]! - expected[0]!),
+    );
+    await expect(rows.nth(2).locator("td").nth(2)).toHaveText(
+      withSeparators(expected[2]! - expected[1]!),
+    );
   });
 
   test("pages through a long result list", async ({ page }) => {
