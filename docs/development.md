@@ -122,8 +122,10 @@ the API address the browser will use, so changing `API_PORT` needs `--build`.
 
 ## Hosted deployment
 
-The public copy at <https://piscope.vercel.app> is the frontend on Vercel calling the API
-on Modal. Both are deployed by hand from a checkout.
+The project is archived and the public copy is no longer running: the Modal app is stopped
+and the Vercel project is paused. When it ran, the frontend on Vercel called the API on
+Modal. Both were deployed by hand from a checkout, and the commands below still work to
+bring it back.
 
 ```bash
 uv run modal deploy deploy/modal_app.py      # API; prints its URL

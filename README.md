@@ -1,9 +1,9 @@
 # PiScope
 
-**Status: ACTIVE**
+**Status: ARCHIVED**
 
-**Live: <https://piscope.vercel.app>** (the API sleeps when idle, so the first load can take
-about five seconds)
+The hosted version (API on Modal, interface on Vercel) has been taken down. Run it
+locally with Docker Compose, as described below.
 
 An interactive environment for exploring the decimal digits of pi: read them, search
 them, count them, test them statistically and compare them with simulated random
